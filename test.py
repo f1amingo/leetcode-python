@@ -1,2 +1,3 @@
-for (num, i) in enumerate([9, 8, 7]):
-    print(num, i)
+arr = [3, 4, 5]
+arr.insert(0, 1)
+print(arr)
