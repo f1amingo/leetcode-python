@@ -1,3 +1,9 @@
-arr = [3, 4, 5]
-arr.insert(0, 1)
-print(arr)
+a = []
+
+if not a:
+    print("not a ")
+
+s = set()
+s.add(1)
+if 2 not in s:
+    print('1 in s')
