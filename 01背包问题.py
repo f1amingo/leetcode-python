@@ -13,3 +13,12 @@ for i in range(1, n + 1):
 
 for clist in dp:
     print(clist)
+
+# 一维数组解法
+
+dp = [0 for _ in range(C + 1)]
+for i in range(1, n + 1):
+    for j in range(C, 0, -1):
+        if j >= W[i]:
+            dp[j] = max(dp[j - W[i]] + V[i], dp[j])
+print(dp)
