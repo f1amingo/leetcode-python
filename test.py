@@ -1,4 +1,1 @@
-n = 4
-C = 5
-dp = [[0 for _ in range(C)] for _ in range(n)]
-print(dp)
+print(b'\x4f\x4b\x41\x59'.decode('ascii'))
