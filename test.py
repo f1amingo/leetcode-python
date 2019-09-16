@@ -1,1 +1,1 @@
-print(b'\x4f\x4b\x41\x59'.decode('ascii'))
+print('abcdef'[1:3])

@@ -1,0 +1,38 @@
+class Solution(object):
+    # 直觉办法 先找pivot
+    def search(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        if not nums:
+            return -1
+        if target == nums[0]:
+            return 0
+        pivot = -1
+        for i in range(1, len(nums)):
+            if nums[i - 1] > nums[i]:
+                pivot = i
+                break
+        if pivot == -1:
+            lo = 0
+            hi = len(nums) - 1
+        elif target > nums[0]:
+            lo = 0
+            hi = pivot - 1
+        else:
+            lo = pivot
+            hi = len(nums) - 1
+        while lo <= hi:
+            mid = (lo + hi) // 2
+            if target == nums[mid]:
+                return mid
+            elif target > nums[mid]:
+                lo = mid + 1
+            else:
+                hi = mid - 1
+        return -1
+
+
+print(Solution().search([1, 3], 3))
