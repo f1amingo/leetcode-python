@@ -37,6 +37,7 @@ class MinStack(object):
         :rtype: None
         """
         self.main_stk.append(x)
+        # 注意等于的时候也要入栈
         if not self.sub_stk or x <= self.sub_stk[-1]:
             self.sub_stk.append(x)
 
@@ -91,4 +92,3 @@ stk.top()
 stk.getMin()
 stk.pop()
 stk.getMin()
-
