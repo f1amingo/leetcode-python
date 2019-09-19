@@ -33,24 +33,31 @@
 
 # leetcode submit region begin(Prohibit modification and deletion)
 class Solution(object):
+    # def nextGreaterElement(self, nums1, nums2):
+    #     """
+    #     :type nums1: List[int]
+    #     :type nums2: List[int]
+    #     :rtype: List[int]
+    #     """
+    #     res = []
+    #     for num in nums1:
+    #         index = nums2.index(num)
+    #         bigger = -1
+    #         for j in range(index + 1, len(nums2)):
+    #             if nums2[j] > num:
+    #                 bigger = nums2[j]
+    #                 break
+    #         res.append(bigger)
+    #     return res
     def nextGreaterElement(self, nums1, nums2):
-        """
-        :type nums1: List[int]
-        :type nums2: List[int]
-        :rtype: List[int]
-        """
-        res = []
-        for num in nums1:
-            index = nums2.index(num)
-            bigger = -1
-            for j in range(index + 1, len(nums2)):
-                if nums2[j] > num:
-                    bigger = nums2[j]
-                    break
-            res.append(bigger)
-        return res
+        lookup, stk = {}, []
+        for num in nums2:
+            while stk and num > stk[-1]:
+                lookup[stk.pop()] = num
+            stk.append(num)
+        return [lookup.get(x, -1) for x in nums1]
 
 
 # leetcode submit region end(Prohibit modification and deletion)
 
-print(Solution().nextGreaterElement([2, 4], [1, 2, 3, 4]))
+print(Solution().nextGreaterElement([4, 1, 2], [1, 3, 4, 2]))
