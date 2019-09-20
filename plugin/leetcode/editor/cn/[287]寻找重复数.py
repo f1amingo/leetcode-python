@@ -35,8 +35,23 @@ class Solution(object):
                 lookup[num] = 1
 
     def findDuplicate(self, nums):
-        pass
+        lo = 0
+        hi = len(nums)  # exclusive
+        while lo < hi:
+            mid = (lo + hi) // 2 + 1
+            count = 0
+            for num in nums:
+                if num < mid:
+                    count += 1
+            if count > (mid - 1):
+                hi = mid - 1
+            else:
+                lo = mid
+        return lo
+
 
 # leetcode submit region end(Prohibit modification and deletion)
 
-print(Solution().findDuplicate([1, 3, 4, 2, 2]))
+# print(Solution().findDuplicate([1, 3, 4, 2, 2]))
+# print(Solution().findDuplicate([3, 1, 3, 4, 2]))
+print(Solution().findDuplicate([1, 1]))
