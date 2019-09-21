@@ -1,1 +1,3 @@
-print(2 ^ 2)
+arr = ['1', '', '']
+arr.remove('')
+print(arr)
