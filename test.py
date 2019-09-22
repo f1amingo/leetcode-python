@@ -1,3 +1,1 @@
-arr = ['1', '', '']
-arr.remove('')
-print(arr)
+print('1123'.count('1'))
