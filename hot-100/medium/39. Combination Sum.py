@@ -10,7 +10,7 @@ class Solution(object):
         # 不一定要排序
         candidates.sort()
 
-        # index的理解：你先选第一个数的之后还可以选第二个数，反之不行
+        # index的理解：先选了后一个数就不能再选前一个数了
         def dfs(cur_list, cur_target, index):
             for i in range(index, len(candidates)):
                 num = candidates[i]
