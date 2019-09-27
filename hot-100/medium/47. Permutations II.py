@@ -10,6 +10,7 @@ class Solution(object):
         def dfs(cur_nums, path):
             if not cur_nums:
                 res.append(path)
+                return
             left = 0
             while left < len(cur_nums):
                 dfs(cur_nums[:left] + cur_nums[left + 1:], path + [cur_nums[left]])
