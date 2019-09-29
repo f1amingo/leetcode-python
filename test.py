@@ -1,2 +1,3 @@
-for i in range(3):
-    print("hahah")
+arr = []
+arr[3] = 3
+print(arr)
