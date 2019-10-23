@@ -1,3 +1,3 @@
-arr = []
-arr[3] = 3
-print(arr)
+s = 'abc'
+for i, j in enumerate(s):
+    print(i, j)
