@@ -11,12 +11,22 @@ class Solution(object):
         :type head: ListNode
         :rtype: bool
         """
-        slow = fast = head
-        while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-            if slow == fast:
+        # 快慢指针
+        # slow = fast = head
+        # while fast and fast.next:
+        #     slow = slow.next
+        #     fast = fast.next.next
+        #     if slow == fast:
+        #         return True
+        # return False
+
+        # 使用map
+        lookup = {}
+        while head:
+            if head in lookup:
                 return True
+            lookup[head] = 0
+            head = head.next
         return False
 
 
