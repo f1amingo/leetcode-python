@@ -29,11 +29,32 @@ class Solution(object):
         # return True
 
         # 转换为数组 极简代码
-        _list = []
-        while head:
-            _list.append(head.val)
+        # _list = []
+        # while head:
+        #     _list.append(head.val)
+        #     head = head.next
+        # return _list == _list[::-1]
+
+        # 快慢指针 部分翻转
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        def reverse(_head):
+            pre = None
+            cur = _head
+            while cur:
+                cur.next, cur, pre = pre, cur.next, cur
+            return pre
+
+        half_head = reverse(slow)
+        while half_head:
+            if head.val != half_head.val:
+                return False
+            half_head = half_head.next
             head = head.next
-        return _list == _list[::-1]
+        return True
 
 
 node1 = ListNode(1)
