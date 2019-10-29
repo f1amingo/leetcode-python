@@ -1,3 +1,1 @@
-s = "anagram"
-t = "nagaram"
-print('a1'.isalnum())
+print(3 >> 1)
