@@ -34,10 +34,16 @@ class Solution(object):
         # return dp[-1]
 
         # 前面补零 避免if
-        nums = [0, 0] + nums
-        for i in range(2, len(nums)):
-            nums[i] = max(nums[i] + nums[i - 2], nums[i - 1])
-        return nums[-1]
+        # nums = [0, 0] + nums
+        # for i in range(2, len(nums)):
+        #     nums[i] = max(nums[i] + nums[i - 2], nums[i - 1])
+        # return nums[-1]
+
+        # O(1)的空间
+        last = now = 0
+        for i in nums:
+            last, now = now, max(now, last + i)
+        return now
 
 
 print(Solution().rob([1, 2, 3, 1]))
