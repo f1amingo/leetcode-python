@@ -33,6 +33,11 @@ class Solution(object):
         #     dp[i] = max(dp[i - 1], nums[i] + dp[i - 2])
         # return dp[-1]
 
+        # 前面补零 避免if
+        nums = [0, 0] + nums
+        for i in range(2, len(nums)):
+            nums[i] = max(nums[i] + nums[i - 2], nums[i - 1])
+        return nums[-1]
 
 
-print(Solution().rob([1, 2, 3]))
+print(Solution().rob([1, 2, 3, 1]))
