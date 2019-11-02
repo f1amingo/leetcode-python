@@ -23,18 +23,17 @@ class Solution(object):
         res = 0
 
         def helper(left, right):
-            count = 0
+            nonlocal res
             while left >= 0 and right < len(s) and s[left] == s[right]:
                 left -= 1
                 right += 1
-                count += 1
-            return count
+                res += 1
 
         for i in range(len(s)):
             # 以s[i]为中心的字符串是否是回文串，奇数
-            res += helper(i, i)
+            helper(i, i)
             # 以s[i]，s[i+1]为中心的字符串是否是回文串，偶数
-            res += helper(i, i + 1)
+            helper(i, i + 1)
         return res
 
 
