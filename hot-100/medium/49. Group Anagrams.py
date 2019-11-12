@@ -4,14 +4,28 @@ class Solution(object):
         :type strs: List[str]
         :rtype: List[List[str]]
         """
+        # 字符排序确定异位词
+        # res = {}
+        # for string in strs:
+        #     sorted_str = ''.join(sorted(string))
+        #     if sorted_str in res:
+        #         res[sorted_str].append(string)
+        #     else:
+        #         res[sorted_str] = [string]
+        # return [res[key] for key in res]
+
+        # 统计出现次数确定异位词
         res = {}
         for string in strs:
-            sorted_str = ''.join(sorted(string))
-            if sorted_str in res:
-                res[sorted_str].append(string)
+            statis = [0] * 26
+            for ch in string:
+                statis[ord(ch) - ord('a')] += 1
+            tuple_key = tuple(statis)
+            if tuple_key in res:
+                res[tuple_key].append(string)
             else:
-                res[sorted_str] = [string]
-        return [res[key] for key in res]
+                res[tuple_key] = [string]
+        return [val for key, val in res.items()]
 
 
 print(Solution().groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
