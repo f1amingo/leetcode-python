@@ -4,7 +4,6 @@ class Solution(object):
         :type s: str
         :rtype: str
         """
-
         # 二维dp
         # n = len(s)
         # dp = [[0] * n for _ in range(n)]
@@ -43,24 +42,24 @@ class Solution(object):
         #             end = j
         # return s[start:end + 1]
 
-        # 中心扩散
-        n = len(s)
-        start = 0
-        end = 0
+        # # 中心扩散
+        # n = len(s)
+        # start = 0
+        # end = 0
+        #
+        # def helper(left, right):
+        #     while left >= 0 and right < n and s[left] == s[right]:
+        #         left -= 1
+        #         right += 1
+        #     nonlocal start, end
+        #     if right - left > end - start:
+        #         start = left
+        #         end = right
+        #
+        # for i in range(n):
+        #     helper(i, i)
+        #     helper(i, i + 1)
+        # return s[start + 1: end]
 
-        def helper(left, right):
-            while left >= 0 and right < n and s[left] == s[right]:
-                left -= 1
-                right += 1
-            nonlocal start, end
-            if right - left > end - start:
-                start = left
-                end = right
 
-        for i in range(n):
-            helper(i, i)
-            helper(i, i + 1)
-        return s[start + 1: end]
-
-
-print(Solution().longestPalindrome("aaaa"))
+print(Solution().longestPalindrome("cbbd"))
