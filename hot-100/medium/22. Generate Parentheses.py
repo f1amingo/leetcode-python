@@ -1,22 +1,22 @@
-class Solution(object):
-    def generateParenthesis(self, n):
-        """
-        :type n: int
-        :rtype: List[str]
-        """
+from typing import List
+
+
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
         ans = []
 
-        def dfs(cur_set, left, right):
-            if len(cur_set) == 2 * n:
-                ans.append(cur_set)
+        def dfs(cur, left, right):
+            if right == 0:
+                if cur:
+                    ans.append(cur)
                 return
-            if left < n:
-                dfs(cur_set + '(', left + 1, right)
-            if right < left:
-                dfs(cur_set + ')', left, right + 1)
+            if left > 0:
+                dfs(cur + '(', left - 1, right)
+            if right > left:
+                dfs(cur + ')', left, right - 1)
 
-        dfs('', 0, 0)
+        dfs('', n, n)
         return ans
 
 
-print(Solution().generateParenthesis(3))
+print(Solution().generateParenthesis(0))

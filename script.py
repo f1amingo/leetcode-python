@@ -2,32 +2,21 @@ from typing import List
 
 
 class Solution:
-    def letterCombinations(self, digits: str) -> List[str]:
-        letter_table = {
-            '2': 'abc',
-            '3': 'def',
-            '4': 'ghi',
-            '5': 'jkl',
-            '6': 'mno',
-            '7': 'pqrs',
-            '8': 'tuv',
-            '9': 'wxyz',
-        }
+    def generateParenthesis(self, n: int) -> List[str]:
         ans = []
-        if not digits:
-            return ans
 
-        def dfs(cur, _digits):
-            if not _digits:
-                ans.append(cur)
+        def dfs(cur, left, right):
+            if right == 0:
+                if cur:
+                    ans.append(cur)
                 return
-            letters = letter_table[_digits[0]]
-            for letter in letters:
-                dfs(cur + letter, _digits[1:])
+            if left > 0:
+                dfs(cur + '(', left - 1, right)
+            if right > left:
+                dfs(cur + ')', left, right - 1)
 
-        dfs('', digits)
+        dfs('', n, n)
         return ans
 
 
-print(Solution().letterCombinations(''))
-print(Solution().letterCombinations("23"))
+print(Solution().generateParenthesis(0))
