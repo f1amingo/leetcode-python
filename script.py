@@ -3,11 +3,16 @@ from typing import List
 
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
-        left_most = 0
-        for i in range(len(nums)):
-            if left_most < i:
+        n = len(nums)
+        if n <= 1:
+            return True
+        max_i = 0
+        for i in range(n):
+            if max_i < i:
                 return False
-            left_most = max(left_most, i + nums[i])
+            max_i = max(max_i, i + nums[i])
+            if max_i >= n - 1:
+                return True
         return True
 
 
