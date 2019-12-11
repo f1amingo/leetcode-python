@@ -9,7 +9,7 @@ class Solution:
         # return nums[k - 1]
 
         # 使用堆
-        # return heapq.nlargest(k, nums)[-1]
+        return heapq.nlargest(k, nums)[-1]
 
 
 
