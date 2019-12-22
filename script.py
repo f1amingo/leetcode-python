@@ -1,19 +1,26 @@
+# Definition for a binary tree node.
+from typing import List
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
 class Solution:
-    def longestPalindrome(self, s: str) -> str:
-        n = len(s)
-        start = 0
-        end = 0
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        cur = root
+        stk = []
+        res = []
+        while cur or stk:
+            while cur:
+                stk.append(cur)
+                cur = cur.left
+            cur = stk.pop()
+            res.append(cur.val)
+            cur = cur.right
+        return res
 
-        def helper(left, right):
-            nonlocal start, end
-            while left >= 0 and right < n and s[left] == s[right]:
-                left -= 1
-                right += 1
-            if right - left > end - start:
-                start = left
-                end = right
 
-        for i in range(n):
-            helper(i, i)
-            helper(i, i + 1)
-        return s[start + 1:end]
