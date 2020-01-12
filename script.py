@@ -1,26 +1,27 @@
-# Definition for a binary tree node.
-from typing import List
-
-
-class TreeNode:
+# Definition for singly-linked list.
+class ListNode:
     def __init__(self, x):
         self.val = x
-        self.left = None
-        self.right = None
+        self.next = None
 
 
 class Solution:
-    def inorderTraversal(self, root: TreeNode) -> List[int]:
-        cur = root
-        stk = []
-        res = []
-        while cur or stk:
-            while cur:
-                stk.append(cur)
-                cur = cur.left
-            cur = stk.pop()
-            res.append(cur.val)
-            cur = cur.right
-        return res
-
-
+    def detectCycle(self, head: ListNode) -> ListNode:
+        if not head:
+            return head
+        slow = fast = head
+        while fast:
+            slow = slow.next
+            fast = fast.next
+            if not fast:
+                return None
+            fast = fast.next
+            if slow == fast:
+                break
+        if not fast:
+            return None
+        slow = head
+        while slow != fast:
+            slow = slow.next
+            fast = fast.next
+        return slow
