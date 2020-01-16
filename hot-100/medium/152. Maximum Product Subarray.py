@@ -14,4 +14,4 @@ class Solution:
         return _max
 
 
-print(Solution().maxProduct([-2,3,-4]))
+print(Solution().maxProduct([-2, 3, -4]))
