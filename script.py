@@ -2,27 +2,24 @@ from typing import List
 
 
 class Solution:
-    def nextPermutation(self, nums: List[int]) -> None:
-        n = len(nums)
-        if n < 2:
-            return
-        pivot = -1
-        for i in range(n - 1, 0, -1):
-            if nums[i] > nums[i - 1]:
-                pivot = i - 1
-                break
-        if pivot != -1:
-            for i in range(n - 1, pivot, -1):
-                if nums[i] > nums[pivot]:
-                    nums[i], nums[pivot] = nums[pivot], nums[i]
-                    break
-        left, right = pivot + 1, n - 1
-        while left < right:
-            nums[left], nums[right] = nums[right], nums[left]
-            left += 1
-            right -= 1
+    def numIslands(self, grid: List[List[str]]) -> int:
+        if not grid:
+            return 0
+        m, n = len(grid), len(grid[0])
+        directions = [(-1, 0), (0, -1), (1, 0), (0, 1)]
+        stk = []
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '1':
+                    stk.append((i, j))
+                    while stk:
+                        x, y = stk.pop()
+                        grid[x][y] = '0'
+                        for direct in directions:
+                            new_x, new_y = x + direct[0], y + direct[1]
+                            if 0 <= new_x < m and 0 <= new_y < n and grid[new_x][new_y] == '1':
+                                stk.append((new_x, new_y))
+                    res += 1
+        return res
 
-
-nums = [3, 2, 1]
-Solution().nextPermutation(nums)
-print(nums)
