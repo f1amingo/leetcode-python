@@ -2,24 +2,26 @@ from typing import List
 
 
 class Solution:
-    def numIslands(self, grid: List[List[str]]) -> int:
-        if not grid:
-            return 0
-        m, n = len(grid), len(grid[0])
-        directions = [(-1, 0), (0, -1), (1, 0), (0, 1)]
-        stk = []
-        res = 0
-        for i in range(m):
-            for j in range(n):
-                if grid[i][j] == '1':
-                    stk.append((i, j))
-                    while stk:
-                        x, y = stk.pop()
-                        grid[x][y] = '0'
-                        for direct in directions:
-                            new_x, new_y = x + direct[0], y + direct[1]
-                            if 0 <= new_x < m and 0 <= new_y < n and grid[new_x][new_y] == '1':
-                                stk.append((new_x, new_y))
-                    res += 1
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        if not intervals:
+            return []
+        res = []
+        intervals.sort()
+        left = intervals[0][0]
+        right = intervals[0][1]
+        for item in intervals:
+            if item[0] <= right:
+                right = max(right, item[1])
+            elif item[0] <= left and item[1] <= right:
+                pass
+            else:
+                res.append([left, right])
+                left = item[0]
+                right = item[1]
+        res.append([left, right])
         return res
 
+
+print(Solution().merge([[1, 3], [2, 6], [8, 10], [15, 18]]))
+print(Solution().merge([[1, 4], [4, 5]]))
+print(Solution().merge([]))
