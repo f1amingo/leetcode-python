@@ -12,7 +12,7 @@ def partition(a, i, j):
 
 # [low, high)
 def quick_sort(a, low, high):
-    # 判断
+    # 判断 km
     if low < high:
         m = partition(a, low, high)
         quick_sort(a, low, m)
