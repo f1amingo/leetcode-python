@@ -1,38 +1,37 @@
-def merge(a, low, mid, high):
-    N = high - low + 1
-    b = [0] * N
-    left, right, bIdx = low, mid + 1, 0
-    while left <= mid and right <= high:
+def merge(a, tmp, low, mid, high):
+    i, j, pos = low, mid + 1, low
+    while i <= mid and j <= high:
         # 等于，稳定性保证
-        if a[left] <= a[right]:
-            b[bIdx] = a[left]
-            left += 1
+        if a[i] <= a[j]:
+            tmp[pos] = a[i]
+            i += 1
         else:
-            b[bIdx] = a[right]
-            right += 1
-        bIdx += 1
-    while left <= mid:
-        b[bIdx] = a[left]
-        bIdx += 1
-        left += 1
-    while right <= high:
-        b[bIdx] = a[right]
-        bIdx += 1
-        right += 1
-    for k in range(N):
-        # 注意偏移
-        a[low + k] = b[k]
+            tmp[pos] = a[j]
+            j += 1
+        pos += 1
+    for k in range(i, mid + 1):
+        tmp[pos] = a[k]
+        pos += 1
+    for k in range(j, high + 1):
+        tmp[pos] = a[k]
+        pos += 1
+    a[low:high + 1] = tmp[low:high + 1]
 
 
-def mergeSort(a, low, high):
+# [low, high]
+def mergeSort(a, tmp, low, high):
     # 注意判断条件，这里要确保有两个元素，一个元素时即可跳出
     if low < high:
         mid = (low + high) // 2
-        mergeSort(a, low, mid)
-        mergeSort(a, mid + 1, high)
-        merge(a, low, mid, high)
+        mergeSort(a, tmp, low, mid)
+        mergeSort(a, tmp, mid + 1, high)
+        # 优化
+        if a[mid] <= a[mid + 1]:
+            return
+        merge(a, tmp, low, mid, high)
 
 
 arr = [-2, 3, -5]
-mergeSort(arr, 0, len(arr) - 1)
+tmp = [0] * len(arr)
+mergeSort(arr, tmp, 0, len(arr) - 1)
 print(arr)
