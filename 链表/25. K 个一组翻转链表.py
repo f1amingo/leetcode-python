@@ -36,7 +36,30 @@ class Solution:
 
     # 官方题解
     def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
-        pass
+        def reverse(_head: ListNode, _tail: ListNode):
+            _pre = _tail.next
+            _cur = _head
+            while _pre != tail:
+                _nex = _cur.next
+                _cur.next = _pre
+                _pre = _cur
+                _cur = _nex
+            return _tail, _head
+
+        dummy = ListNode(-1)
+        dummy.next = head
+        pre = dummy
+        while head:
+            tail = pre
+            for i in range(k):
+                tail = tail.next
+                if not tail:
+                    return dummy.next
+            head, tail = reverse(pre.next, tail)
+            pre.next = head
+            pre = tail
+
+        return dummy.next
 
 
 n1 = ListNode(1)
@@ -46,9 +69,9 @@ n4 = ListNode(4)
 n5 = ListNode(5)
 n1.next = n2
 n2.next = n3
-# n3.next = n4
-# n4.next = n5
-node = Solution().reverseKGroup(n1, 3)
+n3.next = n4
+n4.next = n5
+node = Solution().reverseKGroup(n1, 2)
 
 while node:
     print(node.val)
