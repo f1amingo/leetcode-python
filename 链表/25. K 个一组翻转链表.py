@@ -37,6 +37,7 @@ class Solution:
     # 官方题解
     def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
         def reverse(_head: ListNode, _tail: ListNode):
+            # 这里与后面的部分拼接起来了
             _pre = _tail.next
             _cur = _head
             while _pre != tail:
@@ -56,7 +57,9 @@ class Solution:
                 if not tail:
                     return dummy.next
             head, tail = reverse(pre.next, tail)
+            # 接新头
             pre.next = head
+            # 新一轮
             pre = tail
 
         return dummy.next
