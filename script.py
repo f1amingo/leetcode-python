@@ -1,3 +1,2 @@
-class Solution:
-    def characterReplacement(self, s: str, k: int) -> int:
-        pass
+print(''[0:0])
+print('abc'[1:0])
