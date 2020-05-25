@@ -1,10 +1,13 @@
 # [i, j)
 def partition(a, i, j):
-    p = a[i]
-    m = i
+    p = a[i]  # pivot的值
+    m = i  # 为pivot最终应该在的位置
     for k in range(i + 1, j):
+        # 碰到一个小于pivot的数
         if a[k] < p:
+            # pivot的最终位置往右移一位
             m += 1
+            # 把这个小的数换到左边
             a[m], a[k] = a[k], a[m]
     a[i], a[m] = a[m], a[i]
     return m
