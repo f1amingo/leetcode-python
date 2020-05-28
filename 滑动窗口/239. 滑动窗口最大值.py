@@ -4,25 +4,19 @@ from typing import List
 class Solution:
     # 奇技淫巧 leftMax + rightMax
     # def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-    #     n = len(nums)
-    #     if n * k == 0:
-    #         return []
-    #     if k == 1:
-    #         return nums
-    #
-    #     rightMax = [0] * n
-    #     cur_max = nums[-1]
-    #     for i in range(n - 1, -1, -1):
-    #         cur_max = nums[i] if (i + 1) % k == 0 else max(cur_max, nums[i])
-    #         rightMax[i] = cur_max
-    #     leftMax = [0] * n
-    #     cur_max = nums[0]
-    #     for i in range(n):
+    #     to_right, to_left = [0] * len(nums), [0] * len(nums)
+    #     cur_max = float('-inf')
+    #     for i in range(len(nums)):
     #         cur_max = nums[i] if i % k == 0 else max(cur_max, nums[i])
-    #         leftMax[i] = cur_max
-    #     ans = [0] * (n - k + 1)
-    #     for i in range(n - k + 1):
-    #         ans[i] = max(rightMax[i], leftMax[i + k - 1])
+    #         to_right[i] = cur_max
+    #     cur_max = float('-inf')
+    #     for i in range(len(nums) - 1, -1, -1):
+    #         cur_max = nums[i] if (i + 1) % k == 0 else max(cur_max, nums[i])
+    #         to_left[i] = cur_max
+    #     ans = [0] * (len(nums) - k + 1)
+    #     for high in range(k - 1, len(nums)):
+    #         low = high - k + 1
+    #         ans[low] = max(to_right[high], to_left[low])
     #     return ans
 
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:

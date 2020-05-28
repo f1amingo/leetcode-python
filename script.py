@@ -1,26 +1,22 @@
-import collections
+from typing import List
 
 
 class Solution:
-    def characterReplacement(self, s: str, k: int) -> int:
-        left = right = 0
-        most_c = ''
-        ans = 0
-        found = collections.defaultdict(int)
-        while right < len(s):
-            found[s[right]] += 1
-            # 注意等于：更新为最新进来的元素
-            # 防止左移把以前的most_c移出去，导致while出错
-            if found[s[right]] >= found[most_c]:
-                most_c = s[right]
-            while right - left + 1 > k + found[most_c]:
-                found[s[left]] -= 1
-                left += 1
-            right += 1
-            ans = max(ans, right - left)
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        to_right, to_left = [0] * len(nums), [0] * len(nums)
+        cur_max = float('-inf')
+        for i in range(len(nums)):
+            cur_max = nums[i] if i % k == 0 else max(cur_max, nums[i])
+            to_right[i] = cur_max
+        cur_max = float('-inf')
+        for i in range(len(nums) - 1, -1, -1):
+            cur_max = nums[i] if (i + 1) % k == 0 else max(cur_max, nums[i])
+            to_left[i] = cur_max
+        ans = [0] * (len(nums) - k + 1)
+        for high in range(k - 1, len(nums)):
+            low = high - k + 1
+            ans[low] = max(to_right[high], to_left[low])
         return ans
 
 
-print(Solution().characterReplacement("BAAA", 0))
-print(Solution().characterReplacement("ABAB", 2))
-print(Solution().characterReplacement("AABABBA", 1))
+print(Solution().maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3))
