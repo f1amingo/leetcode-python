@@ -2,27 +2,43 @@ from typing import List
 
 
 class Solution:
-    def numberOfSubarrays(self, nums: List[int], k: int) -> int:
-        # 保存奇数下标
-        # 快速访问left-1和right+1
-        # 左边界初始为-1
-        odds = [-1]
-        for i, num in enumerate(nums):
-            if num % 2 == 1:
-                odds.append(i)
-        # 右边界初始为len(nums)
-        odds.append(len(nums))
-        left = right = 1
+    def reversePairs(self, nums: List[int]) -> int:
         ans = 0
-        while right < len(odds) - 1:
-            if k == right - left + 1:
-                ans += (odds[left] - odds[left - 1]) * (odds[right + 1] - odds[right])
-                left += 1
-            right += 1
+
+        def merge(low, mid, high):
+            i, j, k = low, mid, 0
+            arr = [0] * (high - low)
+            while i < mid and j < high:
+                if nums[i] <= nums[j]:
+                    arr[k] = nums[i]
+                    i += 1
+                else:
+                    arr[k] = nums[j]
+                    j += 1
+                    nonlocal ans
+                    ans += mid - i
+                k += 1
+            while i < mid:
+                arr[k] = nums[i]
+                k += 1
+                i += 1
+            while j < high:
+                arr[k] = nums[j]
+                k += 1
+                j += 1
+            nums[low:high] = arr
+
+        def sort(low, high):
+            if low < high - 1:
+                mid = (low + high) // 2
+                sort(low, mid)
+                sort(mid, high)
+                if nums[mid - 1] <= nums[mid]:
+                    return
+                merge(low, mid, high)
+
+        sort(0, len(nums))
         return ans
 
 
-print(Solution().numberOfSubarrays([1, 1, 2, 1, 1], 3))
-print(Solution().numberOfSubarrays([2, 4, 6], 1))
-print(Solution().numberOfSubarrays([2, 2, 2, 1, 2, 2, 1, 2, 2, 2], 2))
-print(Solution().numberOfSubarrays([1], 1))
+print(Solution().reversePairs([7, 5, 6, 4]))

@@ -9,6 +9,7 @@ class Solution:
                 mid = (low + high) // 2
                 a = merge_sort(arr, tmp, low, mid)
                 b = merge_sort(arr, tmp, mid + 1, high)
+                # 是否已经有序
                 if arr[mid] <= arr[mid + 1]:
                     return a + b
                 c = merge(arr, tmp, low, mid, high)
