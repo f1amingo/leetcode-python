@@ -10,6 +10,7 @@ class Solution:
         res = float('inf')
         for i in range(m):
             for j in range(n):
+                # 但出现这种写法时，可以选择只有一行的测试用例
                 if i == 0:
                     dp[i][j] = A[i][j]
                 else:
