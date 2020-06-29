@@ -1,24 +1,18 @@
-n = 4
-C = 10
-V = [0, 2, 4, 3, 7]
-W = [0, 2, 3, 5, 5]
-dp = [[0 for _ in range(C + 1)] for _ in range(n + 1)]
+weights = [2, 3, 4, 5]
+values = [3, 4, 5, 6]
+capacity = 8
 
-for i in range(1, n + 1):
-    for j in range(1, C + 1):
-        if j < W[i]:
-            dp[i][j] = dp[i - 1][j]
-        else:
-            dp[i][j] = max(dp[i - 1][j - W[i]] + V[i], dp[i - 1][j])
 
-for clist in dp:
-    print(clist)
+# 最优解10
 
-# 一维数组解法
+def knapsack(w: list, v: list, C: int) -> int:
+    N = len(w)
+    dp = [0] * (C + 1)
+    for i in range(N):
+        for c in range(C, w[i] - 1, -1):
+            dp[c] = max(dp[c], dp[c - w[i]] + v[i])
+        print(dp)
+    return dp[-1]
 
-dp = [0 for _ in range(C + 1)]
-for i in range(1, n + 1):
-    for j in range(C, 0, -1):
-        if j >= W[i]:
-            dp[j] = max(dp[j - W[i]] + V[i], dp[j])
-print(dp)
+
+print(knapsack(weights, values, capacity))
