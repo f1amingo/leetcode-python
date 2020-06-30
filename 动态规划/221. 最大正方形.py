@@ -1,4 +1,6 @@
 from typing import List
+
+
 # 反思：
 # 1. dp[i][j]不一定需要直接表示最终结果，比如此题求最大正方形的面积，
 #    dp[i][j]表示的以(i,j)为右下角的正方形的边长，
@@ -47,17 +49,21 @@ class Solution:
                     if i == 0 or j == 0:
                         dp[i][j] = 1
                     else:
-                        dp[i][j] = min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1
+                        # 下标没做处理，越界了
+                        # -1的时候取到了last，但是因为last默认值是0，结果还是对了
+                        # dp[i][j] = min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1
+                        pre_i = max(i - 1, 0)
+                        pre_j = max(j - 1, 0)
+                        dp[i][j] = min(dp[pre_i][j], dp[i][pre_j], dp[pre_i][pre_j]) + 1
                     # 更新最大值的优雅做法
                     max_edge = max(max_edge, dp[i][j])
         return max_edge * max_edge
 
 
 mat = [
-    [1, 0, 1, 0, 0],
-    [1, 1, 1, 1, 0],
-    [1, 1, 1, 1, 0],
-    [1, 1, 1, 1, 0],
-    [1, 1, 1, 1, 0],
+    ['1', '0', '0', '0', '1'],
+    ['1', '0', '0', '0', '1'],
+    ['1', '0', '0', '0', '1'],
+    ['1', '0', '0', '0', '1'],
 ]
 print(Solution().maximalSquare(mat))
