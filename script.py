@@ -2,14 +2,25 @@ from typing import List
 
 
 class Solution:
-    def lastStoneWeightII(self, stones: List[int]) -> int:
-        _sum = sum(stones)
-        half_sum = _sum // 2
-        dp = [0] * (half_sum + 1)
-        for stone in stones:
-            for j in range(half_sum, stone - 1, -1):
-                dp[j] = max(dp[j], dp[j - stone] + stone)
-        return _sum - 2 * dp[-1]
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        if not grid or not grid[0]:
+            return 0
+        m, n = len(grid), len(grid[0])
+        dp = [[0] * n for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                if i == 0:
+                    dp[i][j] = dp[i][max(j - 1, 0)] + grid[i][j]
+                elif j == 0:
+                    dp[i][j] = dp[max(i - 1, 0)][j] + grid[i][j]
+                else:
+                    dp[i][j] = min(dp[i][j - 1], dp[i - 1][j]) + grid[i][j]
+        return dp[-1][-1]
 
 
-print(Solution().lastStoneWeightII([2, 7, 4, 1, 8, 1]))
+grid = [
+    [1, 3, 1],
+    [1, 5, 1],
+    [4, 2, 1]
+]
+print(Solution().minPathSum(grid))

@@ -12,11 +12,10 @@ class Solution:
                 # 注意初始化
                 if i == 0:
                     dp[j] = dp[max(j - 1, 0)] + grid[i][j]
-                    continue
-                if j == 0:
+                elif j == 0:
                     dp[j] = dp[j] + grid[i][j]
-                    continue
-                dp[j] = min(dp[j], dp[max(j - 1, 0)]) + grid[i][j]
+                else:
+                    dp[j] = min(dp[j], dp[max(j - 1, 0)]) + grid[i][j]
         return dp[-1]
 
 
