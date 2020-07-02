@@ -3,8 +3,6 @@ from typing import List
 
 class Solution:
     def lastStoneWeightII(self, stones: List[int]) -> int:
-        if not stones:
-            return 0
         total = sum(stones)
         C = total // 2  # 左中位数
         dp = [0] * (C + 1)

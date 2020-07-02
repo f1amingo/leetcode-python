@@ -2,20 +2,14 @@ from typing import List
 
 
 class Solution:
-    def minFallingPathSum(self, A: List[List[int]]) -> int:
-        m, n = len(A), len(A[0])
-        dp = [0] * n
-        for i in range(m):
-            tmp = [0] * n
-            for j in range(n):
-                if i == 0:
-                    tmp[j] = A[i][j]
-                else:
-                    tmp[j] = min(dp[j], dp[max(0, j - 1)], dp[min(n - 1, j + 1)]) + A[i][j]
-            dp = tmp
-        return min(dp)
+    def lastStoneWeightII(self, stones: List[int]) -> int:
+        _sum = sum(stones)
+        half_sum = _sum // 2
+        dp = [0] * (half_sum + 1)
+        for stone in stones:
+            for j in range(half_sum, stone - 1, -1):
+                dp[j] = max(dp[j], dp[j - stone] + stone)
+        return _sum - 2 * dp[-1]
 
 
-A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-A = [[-19, 57], [-40, -5]]
-print(Solution().minFallingPathSum(A))
+print(Solution().lastStoneWeightII([2, 7, 4, 1, 8, 1]))
