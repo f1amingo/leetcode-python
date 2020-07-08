@@ -1,26 +1,20 @@
-from typing import List
-
-
 class Solution:
-    def minPathSum(self, grid: List[List[int]]) -> int:
-        if not grid or not grid[0]:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        if not text1 or not text2:
             return 0
-        m, n = len(grid), len(grid[0])
-        dp = [[0] * n for _ in range(m)]
-        for i in range(m):
-            for j in range(n):
-                if i == 0:
-                    dp[i][j] = dp[i][max(j - 1, 0)] + grid[i][j]
-                elif j == 0:
-                    dp[i][j] = dp[max(i - 1, 0)][j] + grid[i][j]
+        m, n = len(text1), len(text2)
+        dp = [0] * (n + 1)
+        for c in text1:
+            tmp = [0] * (n + 1)
+            for j in range(1, n + 1):
+                if c == text2[j - 1]:
+                    tmp[j] = dp[j - 1] + 1
                 else:
-                    dp[i][j] = min(dp[i][j - 1], dp[i - 1][j]) + grid[i][j]
-        return dp[-1][-1]
+                    tmp[j] = max(dp[j], tmp[j - 1])
+            dp = tmp
+        return dp[-1]
 
 
-grid = [
-    [1, 3, 1],
-    [1, 5, 1],
-    [4, 2, 1]
-]
-print(Solution().minPathSum(grid))
+print(Solution().longestCommonSubsequence('abcde', 'ace'))
+print(Solution().longestCommonSubsequence('abc', 'abc'))
+print(Solution().longestCommonSubsequence('abc', 'def'))
