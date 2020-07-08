@@ -1,20 +1,24 @@
+from typing import List
+
+
 class Solution:
-    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        if not text1 or not text2:
+    def rob(self, nums: List[int]) -> int:
+        if not nums:
             return 0
-        m, n = len(text1), len(text2)
-        dp = [0] * (n + 1)
-        for c in text1:
-            tmp = [0] * (n + 1)
-            for j in range(1, n + 1):
-                if c == text2[j - 1]:
-                    tmp[j] = dp[j - 1] + 1
-                else:
-                    tmp[j] = max(dp[j], tmp[j - 1])
-            dp = tmp
-        return dp[-1]
+        N = len(nums)
+        if N <= 3:
+            return max(nums)
+
+        def helper(left, right):
+            n = right - left + 2
+            dp = [0] * n
+            for i in range(2, n):
+                dp[i] = max(dp[i - 2] + nums[i + left - 2], dp[i - 1])
+            return dp[-1]
+
+        return max(helper(0, N - 1), helper(1, N))
 
 
-print(Solution().longestCommonSubsequence('abcde', 'ace'))
-print(Solution().longestCommonSubsequence('abc', 'abc'))
-print(Solution().longestCommonSubsequence('abc', 'def'))
+print(Solution().rob([1]))
+print(Solution().rob([2, 3, 2]))
+print(Solution().rob([1, 2, 3, 1]))
