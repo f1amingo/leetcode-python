@@ -1,21 +1,17 @@
 class Solution:
     def waysToChange(self, n: int) -> int:
         M = 1000000007
-        dp = [0] * (n + 1)
-        dp[0] = 1
-        for i in range(1, n + 1):
-            if i - 1 >= 0:
-                dp[i] = 1
-            if i - 5 >= 0:
-                dp[i] += dp[i - 5]
-            if i - 10 >= 0:
-                dp[i] += dp[i - 10]
-            if i - 25 >= 0:
-                dp[i] += dp[i - 25]
-            dp[i] %= M
-        return dp[-1]
+        # 优雅的写法
+        dp = [1] + [0] * n
+        coins = [1, 5, 10, 25]
+        # 可选的硬币种类不断增加
+        # 避免重复选择
+        # 因为内循环中，每次只能选择当前面额的coin
+        for coin in coins:
+            for j in range(coin, n + 1):
+                dp[j] += dp[j - coin]
+        return dp[-1] % M
 
 
-# print(Solution().waysToChange(10))
-# print(Solution().waysToChange(5))
-print(Solution().waysToChange(61))
+print(Solution().waysToChange(10))
+print(Solution().waysToChange(5))
