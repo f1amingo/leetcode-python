@@ -1,24 +1,19 @@
-from typing import List
-
-
 class Solution:
-    def rob(self, nums: List[int]) -> int:
-        if not nums:
-            return 0
-        N = len(nums)
-        if N <= 3:
-            return max(nums)
-
-        def helper(left, right):
-            n = right - left + 2
-            dp = [0] * n
-            for i in range(2, n):
-                dp[i] = max(dp[i - 2] + nums[i + left - 2], dp[i - 1])
-            return dp[-1]
-
-        return max(helper(0, N - 1), helper(1, N))
+    def longestPalindromeSubseq(self, s: str) -> int:
+        n = len(s)
+        if n <= 1:
+            return n
+        dp = [[0] * n for _ in range(n)]
+        for i in range(n - 1, -1, -1):
+            dp[i][i] = 1
+            for j in range(i + 1, n):
+                if s[i] == s[j]:
+                    dp[i][j] = dp[i + 1][j - 1] + 2
+                else:
+                    dp[i][j] = max(dp[i][j - 1], dp[i + 1][j])
+        return dp[0][-1]
 
 
-print(Solution().rob([1]))
-print(Solution().rob([2, 3, 2]))
-print(Solution().rob([1, 2, 3, 1]))
+print(Solution().longestPalindromeSubseq("cac"))
+print(Solution().longestPalindromeSubseq("cbbd"))
+print(Solution().longestPalindromeSubseq("bbbab"))
