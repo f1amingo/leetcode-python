@@ -1,19 +1,23 @@
+from typing import List
+
+
 class Solution:
-    def longestPalindromeSubseq(self, s: str) -> int:
-        n = len(s)
-        if n <= 1:
-            return n
-        dp = [[0] * n for _ in range(n)]
-        for i in range(n - 1, -1, -1):
-            dp[i][i] = 1
-            for j in range(i + 1, n):
-                if s[i] == s[j]:
-                    dp[i][j] = dp[i + 1][j - 1] + 2
+    def findLength(self, A: List[int], B: List[int]) -> int:
+        if not A or not B:
+            return 0
+        m, n = len(A), len(B)
+        dp = [0] * (n + 1)
+        res = 0
+        for i in range(m):
+            for j in range(n, 0, -1):
+                if A[i] == B[j - 1]:
+                    dp[j] = dp[j - 1] + 1
+                    res = max(res, dp[j])
                 else:
-                    dp[i][j] = max(dp[i][j - 1], dp[i + 1][j])
-        return dp[0][-1]
+                    dp[j] = 0
+        return res
 
 
-print(Solution().longestPalindromeSubseq("cac"))
-print(Solution().longestPalindromeSubseq("cbbd"))
-print(Solution().longestPalindromeSubseq("bbbab"))
+A = [7]
+B = [3, 2, 1, 4, 7]
+print(Solution().findLength(A, B))
