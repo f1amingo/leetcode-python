@@ -1,23 +1,15 @@
-from typing import List
-
-
 class Solution:
-    def findLength(self, A: List[int], B: List[int]) -> int:
-        if not A or not B:
-            return 0
-        m, n = len(A), len(B)
+    def cuttingRope(self, n: int) -> int:
+        if n == 2:
+            return 1
+        if n == 3:
+            return 2
         dp = [0] * (n + 1)
-        res = 0
-        for i in range(m):
-            for j in range(n, 0, -1):
-                if A[i] == B[j - 1]:
-                    dp[j] = dp[j - 1] + 1
-                    res = max(res, dp[j])
-                else:
-                    dp[j] = 0
-        return res
+        dp[2], dp[3] = 2, 3
+        for i in range(4, n + 1):
+            for j in range(2, i // 2 + 1):
+                dp[i] = max(dp[i], dp[i - j] * dp[j])
+        return dp[-1]
 
 
-A = [7]
-B = [3, 2, 1, 4, 7]
-print(Solution().findLength(A, B))
+print(Solution().cuttingRope(10))
