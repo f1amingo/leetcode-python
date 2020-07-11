@@ -1,18 +1,20 @@
+from typing import List
+
+
 class Solution:
-    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        if not text1 or not text2:
-            return 0
-        m, n = len(text1), len(text2)
-        dp = [0] * (n + 1)
-        for i in range(m):
-            tmp = [0] * (n + 1)
-            for j in range(1, n + 1):
-                if text1[i] == text2[j - 1]:
-                    tmp[j] = dp[j - 1] + 1
-                else:
-                    tmp[j] = max(tmp[j - 1], dp[j])
-            dp = tmp
-        return dp[-1]
+    def canPartition(self, nums: List[int]) -> bool:
+        n = len(nums)
+        if n <= 1:
+            return False
+        total = sum(nums)
+        if total % 2 == 1:
+            return False
+        C = total // 2
+        dp = [0] * (C + 1)
+        for num in nums:
+            for v in range(C, num - 1, -1):
+                dp[v] = max(dp[v], dp[v - num] + num)
+        return dp[-1] == C
 
 
-print(Solution().longestCommonSubsequence('abcde', 'a'))
+print(Solution().canPartition([23, 13, 11, 7, 6, 5, 5]))
