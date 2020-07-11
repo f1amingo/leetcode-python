@@ -17,6 +17,7 @@ class Solution:
         if not text1 or not text2:
             return 0
         m, n = len(text1), len(text2)
+        # dp[i][j]表示A[0..i]和B[0..j]中最长公子序列的长度
         dp = [0] * (n + 1)
         for c in text1:
             tmp = [0] * (n + 1)
