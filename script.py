@@ -2,23 +2,21 @@ from typing import List
 
 
 class Solution:
-    def search(self, nums: List[int], target: int) -> int:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
         if not nums:
-            return -1
-        left, right = 0, len(nums) - 1
-        while left < right:
-            mid = (left + right) // 2
-            if nums[left] <= nums[mid]:
-                if nums[left] <= target <= nums[mid]:
-                    right = mid
-                else:
-                    left = mid + 1
-            else:
-                if nums[mid] < target <= nums[right]:
-                    left = mid + 1
-                else:
-                    right = mid
-        return left if nums[left] == target else -1
+            return False
+        n = len(nums)
+        pre = [0] * (n + 1)
+        pre[1] = nums[0]
+        for i in range(1, n):
+            pre[i + 1] = pre[i] + nums[i]
+            for j in range(i):
+                if k == 0:
+                    if pre[i + 1] - pre[j] == 0:
+                        return True
+                elif (pre[i + 1] - pre[j]) % k == 0:
+                    return True
+        return False
 
 
-print(Solution().search([4, 5, 6, 7, 0, 1, 2], 3))
+print(Solution().checkSubarraySum([0, 0], 0))
