@@ -2,17 +2,24 @@ from typing import List
 
 
 class Solution:
-    def numberOfArithmeticSlices(self, A: List[int]) -> int:
-        n = len(A)
-        if n < 3:
+    def countSquares(self, matrix: List[List[int]]) -> int:
+        if not matrix or not matrix[0]:
             return 0
-        dp = [0] * n
+        m, n = len(matrix), len(matrix[0])
+        dp = [0] * (n + 1)
         res = 0
-        for i in range(2, n):
-            if A[i] + A[i - 2] == 2 * A[i - 1]:
-                dp[i] = dp[i - 1] + 1
-                res += dp[i]
+        for i in range(m):
+            tmp = [0] * (n + 1)
+            for j in range(1, n + 1):
+                if matrix[i][j - 1]:
+                    tmp[j] = min(tmp[j - 1], dp[j], dp[j - 1]) + 1
+                    res += tmp[j]
+            dp = tmp
         return res
 
 
-print(Solution().numberOfArithmeticSlices([1, 2, 3, 6, 9]))
+print(Solution().countSquares([
+    [0, 1, 1, 1],
+    [1, 1, 1, 1],
+    [0, 1, 1, 1]
+]))
