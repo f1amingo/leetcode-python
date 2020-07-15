@@ -2,24 +2,23 @@ from typing import List
 
 
 class Solution:
-    def countSquares(self, matrix: List[List[int]]) -> int:
-        if not matrix or not matrix[0]:
-            return 0
-        m, n = len(matrix), len(matrix[0])
-        dp = [0] * (n + 1)
-        res = 0
-        for i in range(m):
-            tmp = [0] * (n + 1)
-            for j in range(1, n + 1):
-                if matrix[i][j - 1]:
-                    tmp[j] = min(tmp[j - 1], dp[j], dp[j - 1]) + 1
-                    res += tmp[j]
-            dp = tmp
-        return res
+    def wiggleMaxLength(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n <= 1:
+            return n
+        down, up = [0] * n, [0] * n
+        down[0] = up[0] = 1
+        for i in range(1, n):
+            if nums[i - 1] > nums[i]:
+                down[i] = up[i - 1] + 1
+                up[i] = up[i - 1]
+            elif nums[i - 1] < nums[i]:
+                up[i] = down[i - 1] + 1
+                down[i] = down[i - 1]
+            else:
+                up[i] = up[i - 1]
+                down[i] = down[i - 1]
+        return max(up[-1], down[-1])
 
 
-print(Solution().countSquares([
-    [0, 1, 1, 1],
-    [1, 1, 1, 1],
-    [0, 1, 1, 1]
-]))
+print(Solution().wiggleMaxLength([1, 7, 4, 9, 2, 5]))

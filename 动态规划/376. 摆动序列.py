@@ -6,7 +6,7 @@ class Solution:
         n = len(nums)
         if n <= 1:
             return n
-        # [0..i]子序列中最长上升序列的长度
+        # [0..i]中最长上升(下降)子序列的长度
         up, down = [0] * n, [0] * n
         up[0] = down[0] = 1
         for i in range(1, n):
