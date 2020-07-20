@@ -14,6 +14,7 @@ class Solution:
             # 这里提前结束
             # 否则对于[3,1,3,3,3]
             # left++后，剩下的整体有序，继续下面的逻辑会把最小值排除
+            # 但是如果针对右边界移动，就不会有这个问题
             if nums[left] < nums[right]:
                 return nums[left]
             if nums[left] < nums[mid]:
