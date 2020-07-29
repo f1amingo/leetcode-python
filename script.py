@@ -1,1 +1,1 @@
-print([].pop())
+print(range(3))
