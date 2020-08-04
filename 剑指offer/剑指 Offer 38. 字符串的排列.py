@@ -30,3 +30,4 @@ class Solution:
 
 
 print(Solution().permutation("abb"))
+
