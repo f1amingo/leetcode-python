@@ -3,12 +3,41 @@ from typing import List
 
 class Solution:
 
+    # 方法四：快速选择第len(nums)//2个元素
+    # 超时
+    # def majorityElement(self, nums: List[int]) -> int:
+    #     k = len(nums) // 2
+    #
+    #     def partition(low, high):
+    #         pivot = nums[high]
+    #         i = low - 1
+    #         for j in range(low, high):
+    #             if nums[j] <= pivot:
+    #                 i += 1
+    #                 nums[i], nums[j] = nums[j], nums[i]
+    #         nums[i + 1], nums[high] = nums[high], nums[i + 1]
+    #         return i + 1
+    #
+    #     def quick_select(low, high):
+    #         if low < high:
+    #             p = partition(low, high)
+    #             if p == k:
+    #                 return nums[p]
+    #             elif p > k:
+    #                 return quick_select(low, p - 1)
+    #             else:
+    #                 return quick_select(p + 1, high)
+    #         else:
+    #             return nums[low]
+    #
+    #     return quick_select(0, len(nums) - 1)
+
     # 方法三：Moore投票法
     def majorityElement(self, nums: List[int]) -> int:
         cur, votes = -1, 0
         for num in nums:
             if votes == 0:
-                cur =  num
+                cur = num
             votes += 1 if cur == num else -1
         return cur
 

@@ -2,10 +2,8 @@ from typing import List
 
 
 class Solution:
-    def findKthLargest(self, nums: List[int], k: int) -> int:
-        if not nums and k > len(nums):
-            return -1
-        n_smallest = len(nums) - k
+    def majorityElement(self, nums: List[int]) -> int:
+        k = len(nums) // 2
 
         def partition(low, high):
             pivot = nums[high]
@@ -20,17 +18,14 @@ class Solution:
         def quick_select(low, high):
             if low < high:
                 p = partition(low, high)
-                if p == n_smallest:
+                if p == k:
                     return nums[p]
-                elif p < n_smallest:
-                    return quick_select(p + 1, high)
-                else:
+                elif p > k:
                     return quick_select(low, p - 1)
-            return nums[low]
+                else:
+                    return quick_select(p + 1, high)
+            else:
+                return nums[low]
 
         return quick_select(0, len(nums) - 1)
 
-
-print(Solution().findKthLargest([1, 2], 1))
-print(Solution().findKthLargest([3, 2, 1, 5, 6, 4], 2))
-print(Solution().findKthLargest([3, 2, 3, 1, 2, 4, 5, 5, 6], 4))
