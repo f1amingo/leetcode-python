@@ -3,30 +3,37 @@ from typing import List
 
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
+        if not nums and k > len(nums):
+            return -1
+        # 第K大，转换成第len(nums)-k小
+        n_smallest = len(nums) - k
+
+        # 模板
         def partition(low, high):
-            p = nums[low]
-            m = low
-            for i in range(low + 1, high):
-                if nums[i] < p:
-                    m += 1
-                    nums[m], nums[i] = nums[i], nums[m]
-            nums[low], nums[m] = nums[m], nums[low]
-            return m
+            pivot = nums[high]
+            i = low - 1
+            for j in range(low, high):
+                if nums[j] <= pivot:
+                    i += 1
+                    nums[i], nums[j] = nums[j], nums[i]
+            nums[i + 1], nums[high] = nums[high], nums[i + 1]
+            return i + 1
 
-        k_smallest = len(nums) - k
-
-        def quick_find(low, high):
+        # [low, high]
+        def quick_select(low, high):
+            # 至少要有两个元素
             if low < high:
-                m = partition(low, high)
-                if m == k_smallest:
-                    return nums[m]
-                elif m < k_smallest:
-                    return quick_find(m + 1, high)
+                p = partition(low, high)
+                if p == n_smallest:
+                    return nums[p]
+                elif p < n_smallest:
+                    return quick_select(p + 1, high)
                 else:
-                    return quick_find(low, m)
+                    return quick_select(low, p - 1)
+            # 一个元素时
             return nums[low]
 
-        return quick_find(0, len(nums))
+        return quick_select(0, len(nums) - 1)
 
 
 print(Solution().findKthLargest([3, 2, 1, 5, 6, 4], 2))
