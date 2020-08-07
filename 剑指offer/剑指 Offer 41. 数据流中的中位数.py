@@ -7,6 +7,7 @@ class MedianFinder:
         """
         initialize your data structure here.
         """
+        # python没有大根堆，负号+小根堆来实现
         self.max_heap = []
         self.min_heap = []
 
@@ -17,11 +18,11 @@ class MedianFinder:
             heappush(self.min_heap, -heappushpop(self.max_heap, -num))
 
     def findMedian(self) -> float:
-        if len(self.max_heap) == len(self.min_heap):
-            if self.max_heap:
+        # 第一个元素会进入max_heap
+        if self.max_heap:
+            if len(self.max_heap) == len(self.min_heap):
                 return (self.min_heap[0] - self.max_heap[0]) / 2
-        else:
-            if self.max_heap:
+            else:
                 return -self.max_heap[0]
 
 
