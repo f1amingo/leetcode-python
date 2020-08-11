@@ -11,5 +11,5 @@ class Solution:
 
 
 print(
-    Solution().findNthDigit(3)
+    Solution().findNthDigit(0)
 )
