@@ -1,31 +1,14 @@
-from typing import List
-
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
 
 class Solution:
-    def majorityElement(self, nums: List[int]) -> int:
-        k = len(nums) // 2
-
-        def partition(low, high):
-            pivot = nums[high]
-            i = low - 1
-            for j in range(low, high):
-                if nums[j] <= pivot:
-                    i += 1
-                    nums[i], nums[j] = nums[j], nums[i]
-            nums[i + 1], nums[high] = nums[high], nums[i + 1]
-            return i + 1
-
-        def quick_select(low, high):
-            if low < high:
-                p = partition(low, high)
-                if p == k:
-                    return nums[p]
-                elif p > k:
-                    return quick_select(low, p - 1)
-                else:
-                    return quick_select(p + 1, high)
-            else:
-                return nums[low]
-
-        return quick_select(0, len(nums) - 1)
-
+    def reverseList(self, head: ListNode) -> ListNode:
+        if not head or not head.next:
+            return head
+        r = self.reverseList(head.next)
+        r.next = head
+        head.next = None
+        return head

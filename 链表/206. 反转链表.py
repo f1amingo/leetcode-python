@@ -24,7 +24,8 @@ class Solution:
         re_node = self.reverseList(head.next)
         # 这里不可以写re_node.next = head
         # 注意re_node是原链表的尾结点，新链表的头结点
-        head.next.next = head
+        # 下面是反转一对结点
+        head.next.next = head  # 这里你老是写不出来！！！
         head.next = None
         return re_node
 
