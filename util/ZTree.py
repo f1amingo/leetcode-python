@@ -12,10 +12,11 @@ def buildTreeFromList(A: List) -> TreeNode:
     def build(i):
         if i >= len(A):
             return None
-        _head = TreeNode(A[i])
-        _head.left = build(2 * i + 1)
-        _head.right = build(2 * i + 2)
-        return _head
+        if A[i]:
+            _head = TreeNode(A[i])
+            _head.left = build(2 * i + 1)
+            _head.right = build(2 * i + 2)
+            return _head
 
     return build(0)
 
