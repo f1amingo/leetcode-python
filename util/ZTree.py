@@ -21,6 +21,17 @@ def buildTreeFromList(A: List) -> TreeNode:
     return build(0)
 
 
+def getTreeNodeWithValue(root: TreeNode, value) -> TreeNode:
+    if not root:
+        return root
+    if root.val == value:
+        return root
+    node = getTreeNodeWithValue(root.left, value)
+    if node:
+        return node
+    return getTreeNodeWithValue(root.right, value)
+
+
 def printTree(root: TreeNode) -> None:
     pass
 
