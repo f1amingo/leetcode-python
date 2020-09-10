@@ -32,8 +32,6 @@ def getTreeNodeWithValue(root: TreeNode, value) -> TreeNode:
     return getTreeNodeWithValue(root.right, value)
 
 
-def printTree(root: TreeNode) -> None:
-    pass
 
 
 '''
