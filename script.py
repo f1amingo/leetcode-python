@@ -1,14 +1,23 @@
-# Definition for singly-linked list.
-class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+from util.ZTree import *
+
 
 class Solution:
-    def reverseList(self, head: ListNode) -> ListNode:
-        if not head or not head.next:
-            return head
-        r = self.reverseList(head.next)
-        r.next = head
-        head.next = None
-        return head
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+        cur, stk, res = root, [], []
+        while cur or stk:
+            while cur:
+                stk.append(cur)
+                cur = cur.left
+            cur = stk.pop()
+            res.append(cur.val)
+            cur = cur.right
+        return res
