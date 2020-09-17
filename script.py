@@ -1,5 +1,5 @@
-["Fcclu(70)","Dnsay(72)","Qbmk(45)","Unsb(26)","Gauuk(75)","Gnplfi(109)","Hfp(97)","Obcbxb(124)","Ijveol(46)","Fpaf(219)","Qiy(26)","Mcnef(59)","Dhe(79)","Jfq(26)","Ebov(96)","Ofl(72)","Uvkdpn(71)","Avcp(41)","Chycnm(253)","Koaak(53)","Qyqifg(85)","Oltadg(95)","Mwwvj(70)","Naf(3)","Ibink(32)","Ucqh(51)","Mtz(72)","Ard(82)","Hcvcgc(97)","Knpuq(61)","Yeekgc(11)","Ntfr(70)","Bnea(179)","Weusps(79)","Nuq(61)","Drzsnw(87)","Chhmx(259)","Onnev(77)","Kufa(95)","Avmzs(39)","Okwuq(96)","Hljt(51)","Npilye(25)","Axwtno(57)","Kasgmw(95)","Nsgbth(26)","Nzaz(51)","Msyr(211)","Yjc(94)","Jvqg(47)","Alrksy(69)","Aeax(646)","Acohsf(86)","Csh(238)","Nekuam(17)","Kgabb(236)","Fvkhz(104)","Gbkq(77)","Dwifi(237)"]
+values = [2.0, 3.0]
+equations = [["a", "b"], ["b", "c"]]
 
-
-
-["Fcclu(70)","Dnsay(72)","Qbmk(45)","Unsb(26)","Gauuk(75)","Bnea(179)","Gnplfi(109)","Hfp(97)","Ijveol(46)","Qiy(26)","Mcnef(59)","Hvueqc(238)","Obcbxb(124)","Dhe(79)","Jfq(26)","Ebov(96)","Ofl(72)","Uvkdpn(71)","Avcp(41)","Msyr(211)","Koaak(53)","Qyqifg(85)","Oltadg(95)","Mwwvj(70)","Uxf(237)","Naf(3)","Ibink(32)","Ucqh(51)","Mtz(72)","Ard(82)","Chycnm(253)","Hcvcgc(97)","Knpuq(61)","Yeekgc(11)","Ntfr(70)","Kgabb(236)","Weusps(79)","Nuq(61)","Drzsnw(87)","Onnev(77)","Fpaf(219)","Kufa(95)","Chhmx(259)","Avmzs(39)","Okwuq(96)","Npilye(25)","Axwtno(57)","Kasgmw(95)","Nsgbth(26)","Nzaz(51)","Yjc(94)","Hljt(51)","Jvqg(47)","Alrksy(69)","Acohsf(86)","Gbclj(646)","Nekuam(17)","Fvkhz(104)","Gbkq(77)"]
+for (a, b), v in zip(equations, values):
+    print(a, b, v)
