@@ -9,6 +9,8 @@ class Solution:
             chars[i] = chars[j]
             j += 1
             count = 1
+            # j移到区块末尾+1的位置
+            # 统计相同字母数量
             while j < n and chars[j] == chars[j - 1]:
                 j += 1
                 count += 1
@@ -16,6 +18,7 @@ class Solution:
             start = i
             if count == 1:
                 continue
+            # 字母数量写回 从低位到高位
             while count:
                 count, chars[i] = divmod(count, 10)
                 chars[i] = str(chars[i])
