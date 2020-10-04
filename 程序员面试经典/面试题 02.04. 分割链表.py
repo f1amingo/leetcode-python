@@ -9,7 +9,7 @@ from util.List import *
 
 # 1.放到数组里排序，O(n+nlogn+n)
 # 2.分成left, right两个链表，小入left，大入right，然后拼接，O(n)
-
+# 这题还可以使用头插法，就不用为两个链表维护四个变量了
 class Solution:
     def partition(self, head: ListNode, x: int) -> ListNode:
         if not head:
