@@ -2,6 +2,7 @@ from typing import List
 
 
 # 时间复杂度 O(m+n)
+# 好好体会这题和二分的区别
 class Solution:
     def findNumberIn2DArray(self, matrix: List[List[int]], target: int) -> bool:
         if not matrix or not matrix[0]:
