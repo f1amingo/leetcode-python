@@ -12,6 +12,20 @@ class Solution:
             n //= 2
         return res
 
+    # 自己review时的写法
+    # def myPow(self, x: float, n: int) -> float:
+    #     def dfs(k: int) -> float:
+    #         if k == 0:
+    #             return 1
+    #         div, mod = divmod(k, 2)
+    #         _res = dfs(div)
+    #         _res *= _res
+    #         if mod == 1:
+    #             _res *= x
+    #         return _res
+    #
+    #     return dfs(n) if n > 0 else 1 / dfs(-n)
+
     # weiwei的递归写法
     # def myPow(self, x: float, n: int) -> float:
     #     if n == 0:
