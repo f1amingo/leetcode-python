@@ -1,15 +1,18 @@
-from collections import Counter
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        def dfs(k: int) -> float:
+            if k == 0:
+                return 1
+            div, mod = divmod(k, 2)
+            _res = dfs(div)
+            _res *= _res
+            if mod == 1:
+                _res *= x
+            return _res
 
-output = ['abbcd', 'abbdc', 'abcbd', 'abcdb', 'abdcb', 'abdbc', 'acbbd', 'acbdb', 'acdbb', 'adbcb', 'adbbc', 'adcbb',
-          'babcd', 'babdc', 'bacbd', 'bacdb', 'badcb', 'badbc', 'bbacd', 'bbadc', 'bbcad', 'bbcda', 'bbdca', 'bbdac',
-          'bcbad', 'bcbda', 'bcabd', 'bcadb', 'bcdab', 'bcdba', 'bdbca', 'bdbac', 'bdcba', 'bdcab', 'bdacb', 'bdabc',
-          'cbbad', 'cbbda', 'cbabd', 'cbadb', 'cbdab', 'cbdba', 'cabbd', 'cabdb', 'cadbb', 'cdbab', 'cdbba', 'cdabb',
-          'dbbca', 'dbbac', 'dbcba', 'dbcab', 'dbacb', 'dbabc', 'dcbba', 'dcbab', 'dcabb', 'dabcb', 'dabbc', 'dacbb']
+        return dfs(n) if n > 0 else 1 / dfs(-n)
 
-expected = ["abbcd", "abbdc", "abcbd", "abcdb", "abdbc", "abdcb", "acbbd", "acbdb", "acdbb", "adbbc", "adbcb", "adcbb",
-            "babcd", "babdc", "bacbd", "bacdb", "badbc", "badcb", "bbacd", "bbadc", "bbcad", "bbcda", "bbdac", "bbdca",
-            "bcabd", "bcadb", "bcbad", "bcbda", "bcdab", "bcdba", "bdabc", "bdacb", "bdbac", "bdbca", "bdcab", "bdcba",
-            "cabbd", "cabdb", "cadbb", "cbabd", "cbadb", "cbbad", "cbbda", "cbdab", "cbdba", "cdabb", "cdbab", "cdbba",
-            "dabbc", "dabcb", "dacbb", "dbabc", "dbacb", "dbbac", "dbbca", "dbcab", "dbcba", "dcabb", "dcbab", "dcbba"]
 
-print(Counter(output))
+print(Solution().myPow(2, 10))
+print(Solution().myPow(2.1, 3))
+print(Solution().myPow(2, -2))
