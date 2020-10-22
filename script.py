@@ -1,18 +1,8 @@
-class Solution:
-    def myPow(self, x: float, n: int) -> float:
-        if n == 0:
-            return 1
-        if n < 0:
-            x = 1 / x
-            n = -n
-        res = 1
-        while n:
-            if n & 1:
-                res *= x
-            x *= x
-            n >>= 1
-        return res
+import pandas as pd
 
+xl = pd.ExcelFile("C:\\Users\\think\\Desktop\\test.xlsx")
 
-print(Solution().myPow(2, -2))
-print(Solution().myPow(2, 10))
+dfs = pd.read_excel(xl, sheet_name=None, na_values="Missing")
+
+print(dfs)
+print(dfs['Sheet1'])
