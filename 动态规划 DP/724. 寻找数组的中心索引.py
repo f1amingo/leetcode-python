@@ -7,6 +7,8 @@ class Solution:
         total = sum(nums)
         leftSum = 0
         for i, num in enumerate(nums):
+            # 右半边的和可以通过互补来求，不要再傻傻像和左边一样
+            # 当有新信息时，往往也意味着更好的方法
             if leftSum == total - leftSum - num:
                 return i
             leftSum += num
