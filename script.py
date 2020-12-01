@@ -1,20 +1,18 @@
+from typing import List
+
+
 class Solution:
-    def longestPalindromeSubseq(self, s: str) -> int:
-        n = len(s)
-        if n < 2:
-            return n
-        dp = [[1] * n for _ in range(n)]
-        for i in range(n - 1, -1, -1):
-            for j in range(i + 1, n):
-                if s[i] == s[j]:
-                    if j - i == 1:
-                        dp[i][j] = 2
-                    else:
-                        dp[i][j] = dp[i + 1][j - 1] + 2
-                else:
-                    dp[i][j] = max(dp[i][j - 1], dp[i + 1][j])
-        return dp[0][-1]
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0
+        for coin in coins:
+            for i in range(coin, amount + 1):
+                dp[i] = min(dp[i], dp[max(i - coin, 0)] + 1)
+        return -1 if dp[-1] == float('inf') else dp[-1]
 
 
-assert Solution().longestPalindromeSubseq('bbbab') == 4
-assert Solution().longestPalindromeSubseq('cbbd') == 2
+assert Solution().coinChange([1, 2, 5], 11) == 3
+assert Solution().coinChange([2], 3) == -1
+assert Solution().coinChange([1], 0) == 0
+assert Solution().coinChange([1], 1) == 1
+assert Solution().coinChange([1], 2) == 2
