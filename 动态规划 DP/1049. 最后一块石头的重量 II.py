@@ -2,6 +2,10 @@ from typing import List
 
 
 class Solution:
+    # 假设有[a,b,c]
+    # a, b粉碎，得到新石头a-b
+    # a-b与c粉碎，得到c-(a-b) or (a-b)-c
+    # 无论大小关系如何，都是可以看做在每个数前添加正负号，然后求和
     def lastStoneWeightII(self, stones: List[int]) -> int:
         total = sum(stones)
         C = total // 2  # 左中位数
