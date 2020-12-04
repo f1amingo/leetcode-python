@@ -1,16 +1,17 @@
+from collections import Counter
 from typing import List
 
 
-#
 class Solution:
-    def lastStoneWeightII(self, stones: List[int]) -> int:
-        total = sum(stones)
-        C = total // 2
-        dp = [0] * (C + 1)
-        for stone in stones:
-            for i in range(C, stone - 1, -1):
-                dp[i] = max(dp[i], dp[i - stone] + stone)
-        return abs(total - 2 * dp[-1])
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        for s in strs:
+            counter = Counter(s)
+            zero, one = counter.get('0', 0), counter.get('1', 0)
+            for i in range(m, zero - 1, -1):
+                for j in range(n, one - 1, -1):
+                    dp[i][j] = max(dp[i][j], dp[i - zero][j - one] + 1)
+        return dp[-1][-1]
 
 
-assert Solution().lastStoneWeightII([2, 7, 4, 1, 8, 1]) == 1
+assert Solution().findMaxForm(["10", "0001", "111001", "1", "0"], 5, 3) == 4

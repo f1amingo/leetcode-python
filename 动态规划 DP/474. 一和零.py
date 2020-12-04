@@ -1,22 +1,34 @@
+from collections import Counter
 from typing import List
 
 
 class Solution:
-    # 动态规划
+    # 01背包，二维代价
     def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
-        if not strs:
-            return 0
-        N = len(strs)
-        cost = [[0] * 2 for _ in range(N)]
         dp = [[0] * (n + 1) for _ in range(m + 1)]
-        for i in range(N):
-            for c in strs[i]:
-                cost[i][ord(c) - ord('0')] += 1
-        for i in range(N):
-            for j in range(m, cost[i][0] - 1, -1):
-                for k in range(n, cost[i][1] - 1, -1):
-                    dp[j][k] = max(dp[j][k], 1 + dp[j - cost[i][0]][k - cost[i][1]])
+        for s in strs:
+            counter = Counter(s)
+            zero, one = counter.get('0', 0), counter.get('1', 0)
+            for i in range(m, zero - 1, -1):
+                for j in range(n, one - 1, -1):
+                    dp[i][j] = max(dp[i][j], dp[i - zero][j - one] + 1)
         return dp[-1][-1]
+
+    # 动态规划
+    # def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+    #     if not strs:
+    #         return 0
+    #     N = len(strs)
+    #     cost = [[0] * 2 for _ in range(N)]
+    #     dp = [[0] * (n + 1) for _ in range(m + 1)]
+    #     for i in range(N):
+    #         for c in strs[i]:
+    #             cost[i][ord(c) - ord('0')] += 1
+    #     for i in range(N):
+    #         for j in range(m, cost[i][0] - 1, -1):
+    #             for k in range(n, cost[i][1] - 1, -1):
+    #                 dp[j][k] = max(dp[j][k], 1 + dp[j - cost[i][0]][k - cost[i][1]])
+    #     return dp[-1][-1]
 
     # 递归 超时
     # def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
