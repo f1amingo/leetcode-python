@@ -1,17 +1,18 @@
-from collections import Counter
 from typing import List
 
 
 class Solution:
-    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
-        dp = [[0] * (n + 1) for _ in range(m + 1)]
-        for s in strs:
-            counter = Counter(s)
-            zero, one = counter.get('0', 0), counter.get('1', 0)
-            for i in range(m, zero - 1, -1):
-                for j in range(n, one - 1, -1):
-                    dp[i][j] = max(dp[i][j], dp[i - zero][j - one] + 1)
-        return dp[-1][-1]
+    def canPartition(self, nums: List[int]) -> bool:
+        C, mod = divmod(sum(nums), 2)
+        if mod != 0:
+            return False
+        dp = [False] * (C + 1)
+        dp[0] = True
+        for num in nums:
+            for i in range(C, num - 1, -1):
+                dp[i] = dp[i] or dp[i - num]
+        return dp[-1]
 
 
-assert Solution().findMaxForm(["10", "0001", "111001", "1", "0"], 5, 3) == 4
+assert Solution().canPartition([1, 5, 11, 5])
+assert not Solution().canPartition( [1, 2, 3, 5])
