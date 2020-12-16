@@ -1,18 +1,21 @@
-from typing import List
-
-
 class Solution:
-    # dp[i]使用前n数字能否凑出值i
-    def canPartition(self, nums: List[int]) -> bool:
-        C, mod = divmod(sum(nums), 2)
-        if mod == 1:
-            return False
-        dp = [True] + [False] * C
-        for num in nums:
-            for c in range(C, num - 1, -1):
-                dp[c] = dp[c] or dp[c - num]
-        return dp[-1]
+    def decodeString(self, s: str) -> str:
+        stk, res, times = [], '', 0
+        for c in s:
+            if c == '[':
+                stk.append((res, times))
+                res, times = '', 0
+            elif c == ']':
+                # 不要覆盖原times
+                last_res, last_times = stk.pop()
+                res = last_res + last_times * res
+            elif '0' <= c <= '9':
+                times = times * 10 + int(c)
+            else:
+                res += c
+        return res
 
 
-assert Solution().canPartition([1, 5, 11, 5])
-assert not Solution().canPartition([1, 2, 3, 5])
+assert Solution().decodeString("3[a]2[bc]") == "aaabcbc"
+assert Solution().decodeString("3[a2[c]]") == "accaccacc"
+assert Solution().decodeString("2[abc]3[cd]ef") == "abcabccdcdcdef"
