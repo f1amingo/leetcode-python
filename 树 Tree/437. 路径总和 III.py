@@ -8,6 +8,7 @@ from util.ZTree import *
 
 
 class Solution:
+    # 双递归，一个递归遍历节点，一个递归处理节点
     def pathSum(self, root: TreeNode, sum: int) -> int:
         # 以r为起点，路径上path_sum == s的path
         def dfs(r: TreeNode, s: int):
