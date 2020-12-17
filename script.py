@@ -2,17 +2,16 @@ from typing import List
 
 
 class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        n = len(prices)
-        if n < 2:
-            return 0
-        dp = [[0] * 3 for _ in range(n)]
-        dp[0][0] = -prices[0]
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        n = len(nums)
+        dp = [1] * n
         for i in range(1, n):
-            dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] - prices[i])
-            dp[i][1] = max(dp[i - 1][1], dp[i - 1][2])
-            dp[i][2] = dp[i - 1][0] + prices[i]
-        return max(dp[-1][1], dp[-1][2])
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    dp[i] = max(dp[i], dp[j] + 1)
+        return max(dp)
 
 
-assert Solution().maxProfit([1, 2, 3, 0, 2]) == 3
+assert Solution().lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18]) == 4
+assert Solution().lengthOfLIS([0, 1, 0, 3, 2, 3]) == 4
+assert Solution().lengthOfLIS([7, 7, 7, 7, 7, 7, 7]) == 1
