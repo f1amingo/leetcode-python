@@ -1,24 +1,14 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-from util.ZTree import TreeNode
+from typing import List
 
 
 class Solution:
-    # 每个节点返回(偷，不偷)
-    def rob(self, root: TreeNode) -> int:
-        def dfs(r: TreeNode) -> (int, int):
-            if not r:
-                return 0, 0
-            left, right = dfs(r.left), dfs(r.right)
-            do_rob = r.val + left[1] + right[1]
-            no_rob = max(left) + max(right)
-            return do_rob, no_rob
-
-        return max(dfs(root))
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [0] + [float('inf')] * amount
+        for coin in coins:
+            for i in range(coin, amount + 1):
+                dp[i] = min(dp[i], dp[i - coin] + 1)
+        return -1 if dp[-1] == float('inf') else dp[-1]
 
 
-Solution().rob()
+assert Solution().coinChange([1, 2, 5], 11) == 3
+assert Solution().coinChange([2], 3) == -1
