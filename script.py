@@ -2,13 +2,17 @@ from typing import List
 
 
 class Solution:
-    def coinChange(self, coins: List[int], amount: int) -> int:
-        dp = [0] + [float('inf')] * amount
-        for coin in coins:
-            for i in range(coin, amount + 1):
-                dp[i] = min(dp[i], dp[i - coin] + 1)
-        return -1 if dp[-1] == float('inf') else dp[-1]
+    def maxProfit(self, prices: List[int]) -> int:
+        n = len(prices)
+        if n < 2:
+            return 0
+        dp = [[0] * 3 for _ in range(n)]
+        dp[0][0] = -prices[0]
+        for i in range(1, n):
+            dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] - prices[i])
+            dp[i][1] = max(dp[i - 1][1], dp[i - 1][2])
+            dp[i][2] = dp[i - 1][0] + prices[i]
+        return max(dp[-1][1], dp[-1][2])
 
 
-assert Solution().coinChange([1, 2, 5], 11) == 3
-assert Solution().coinChange([2], 3) == -1
+assert Solution().maxProfit([1, 2, 3, 0, 2]) == 3
