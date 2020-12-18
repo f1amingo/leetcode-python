@@ -6,7 +6,7 @@ from typing import List
 #    dp[i][j]表示的以(i,j)为右下角的正方形的边长，
 #    没有直接和面积挂钩，也不是最大。
 # 2. 2维dp画图的时候需要注意，
-#    自己总是直接根据dp[i-1][j-1]的图来推dp[i][j]，
+#    自己总是直接根据dp[i-1][j-1]来推dp[i][j]，
 #    dp[i-1][j], dp[i][j-1]的信息你不要了吗？
 
 class Solution:
