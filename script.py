@@ -2,28 +2,26 @@ from typing import List
 
 
 class Solution:
-    def maximalSquare(self, matrix: List[List[str]]) -> int:
-        if not matrix or not matrix[0]:
-            return 0
-        ans = 0
-        m, n = len(matrix), len(matrix[0])
-        dp = [[0] * n for _ in range(m)]
-        for i in range(m):
-            for j in range(n):
-                if matrix[i][j] == '1':
-                    dp[i][j] = min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1
-                    ans = max(ans, dp[i][j])
-        return ans * ans
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        def partition(low, high):
+            pivot = nums[low]
+            m = low
+            for i in range(low + 1, high):
+                if nums[i] < pivot:
+                    m += 1
+                    nums[m], nums[i] = nums[i], nums[m]
+            nums[low], nums[m] = nums[m], nums[low]
+            return m
 
+        def quick_find(low, high):
+            if low < high:
+                m = partition(low, high)
+                if m == k_smallest:
+                    return nums[m]
+                elif m < k_smallest:
+                    return quick_find(m + 1, high)
+                else:
+                    return quick_find(low, m)
 
-assert Solution().maximalSquare(
-    [["1", "0", "1", "0", "0"], ["1", "0", "1", "1", "1"], ["1", "1", "1", "1", "1"], ["1", "0", "0", "1", "0"]]
-) == 4
-
-assert Solution().maximalSquare(
-    [["0", "1"], ["1", "0"]]
-) == 1
-
-assert Solution().maximalSquare(
-    [["0"]]
-) == 0
+        k_smallest = len(nums) - k
+        return quick_find(0, len(nums))
