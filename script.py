@@ -1,20 +1,27 @@
-import collections
-from typing import List
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from util.ZTree import TreeNode
 
 
 class Solution:
-    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        word_dict = collections.Counter(wordDict)
-        n = len(s)
-        dp = [True] + [False] * n
-        for i in range(n):
-            for j in range(i, -1, -1):
-                dp[i + 1] = s[j:i + 1] in word_dict and dp[j]
-                if dp[i + 1]:
-                    break
-        return dp[-1]
+    def flatten(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
 
+        def dfs(r: TreeNode) -> TreeNode:
+            if r:
+                lt, rt = r.left, r.right
+                r.left, r.right = None, None
+                r.right = dfs(lt)
+                ptr = r
+                while ptr and ptr.right:
+                    ptr = ptr.right
+                ptr.right = dfs(rt)
+            return r
 
-assert Solution().wordBreak('leetcode', ["leet", "code"])
-assert Solution().wordBreak('applepenapple', ["apple", "pen"])
-assert not Solution().wordBreak('catsandog', ["cats", "dog", "sand", "and", "cat"])
+        dfs(root)
