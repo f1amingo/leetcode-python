@@ -1,20 +1,42 @@
-from typing import List
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+from util.List import *
 
 
 class Solution:
-    def maxProduct(self, nums: List[int]) -> int:
-        if not nums:
-            return 0
-        ans = max_val = min_val = nums[0]
-        for num in nums[1:]:
-            if num < 0:
-                max_val, min_val = min_val, max_val
-            max_val = max(max_val * num, num)
-            min_val = min(min_val * num, num)
-            ans = max(ans, max_val)
-        return ans
+    def sortList(self, head: ListNode) -> ListNode:
+        if not head or not head.next:
+            return head
+        # 寻找中点
+        slow = fast = head
+        while fast and fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+        # 断开链表
+        head1 = slow.next
+        slow.next = None
+        # 分别排序
+        ptr1 = self.sortList(head)
+        ptr2 = self.sortList(head1)
+        ptr = dummy = ListNode(-1)
+        while ptr1 and ptr2:
+            if ptr1.val <= ptr2.val:
+                ptr.next = ptr1
+                ptr1 = ptr1.next
+            else:
+                ptr.next = ptr2
+                ptr2 = ptr2.next
+            ptr = ptr.next
+        if ptr1:
+            ptr.next = ptr1
+        if ptr2:
+            ptr.next = ptr2
+        return dummy.next
 
 
-assert Solution().maxProduct([-2]) == -2
-assert Solution().maxProduct([2, 3, -2, 4]) == 6
-assert Solution().maxProduct([-2, 0, -1]) == 0
+printLinkedList(Solution().sortList(toLinkedList([3, 2, 1])))
+printLinkedList(Solution().sortList(toLinkedList([4, 3])))
+printLinkedList(Solution().sortList(toLinkedList([4, 2, 1, 3])))
