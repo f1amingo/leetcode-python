@@ -1,27 +1,12 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-from util.ZTree import TreeNode
-
-
 class Solution:
-    def flatten(self, root: TreeNode) -> None:
-        """
-        Do not return anything, modify root in-place instead.
-        """
+    def numTrees(self, n: int) -> int:
+        dp = [1] + [0] * n
+        for i in range(1, n + 1):
+            for j in range(i):
+                dp[i] += dp[j] * dp[i - j - 1]
+        return dp[-1]
 
-        def dfs(r: TreeNode) -> TreeNode:
-            if r:
-                lt, rt = r.left, r.right
-                r.left, r.right = None, None
-                r.right = dfs(lt)
-                ptr = r
-                while ptr and ptr.right:
-                    ptr = ptr.right
-                ptr.right = dfs(rt)
-            return r
 
-        dfs(root)
+assert Solution().numTrees(1) == 1
+assert Solution().numTrees(2) == 2
+assert Solution().numTrees(3) == 5
