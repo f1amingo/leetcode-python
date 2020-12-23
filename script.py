@@ -2,22 +2,14 @@ from typing import List
 
 
 class Solution:
-    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        if not intervals:
-            return []
-        intervals.sort()
-        ans = []
-        start, end = intervals[0]
-        for lt, rt in intervals:
-            # 不相交
-            if end < lt:
-                ans.append([start, end])
-                start, end = lt, rt
-            else:
-                end = max(end, rt)
-        ans.append([start, end])
-        return ans
+    def canJump(self, nums: List[int]) -> bool:
+        right_most = 0
+        for i, num in enumerate(nums):
+            if right_most < i:
+                return False
+            right_most = max(right_most, i + num)
+        return True
 
 
-assert Solution().merge([[1, 3], [2, 6], [8, 10], [15, 18]]) == [[1, 6], [8, 10], [15, 18]]
-assert Solution().merge([[1, 4], [4, 5]]) == [[1, 5]]
+assert Solution().canJump([2, 3, 1, 1, 4])
+assert not Solution().canJump([3, 2, 1, 0, 4])
