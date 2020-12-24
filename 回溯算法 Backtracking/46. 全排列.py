@@ -2,6 +2,22 @@ from typing import List
 
 
 class Solution:
+    # 交换位置即可生成所有排列
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        def dfs(start: int):
+            if start == n:
+                ans.append(nums.copy())
+                return
+            for i in range(start, n):
+                nums[i], nums[start] = nums[start], nums[i]
+                dfs(start + 1)
+                nums[i], nums[start] = nums[start], nums[i]
+
+        n = len(nums)
+        ans = []
+        dfs(0)
+        return ans
+
     # 拼接数组 频繁申请空间
     # def permute(self, nums: List[int]) -> List[List[int]]:
     #     n = len(nums)
@@ -42,27 +58,27 @@ class Solution:
 
     # 上一种方法使用used数组
     # 结果为字典序
-    def permute(self, nums: List[int]) -> List[List[int]]:
-        n = len(nums)
-        ans = []
-        used = [False] * n
-        tmp = []
-
-        def backtrack(depth=0):
-            if depth == n:
-                ans.append(tmp[:])
-                return
-            # 这里要对整个数组进行遍历
-            for i in range(0, n):
-                if not used[i]:
-                    used[i] = True
-                    tmp.append(nums[i])
-                    backtrack(depth + 1)
-                    used[i] = False
-                    tmp.pop()
-
-        backtrack()
-        return ans
+    # def permute(self, nums: List[int]) -> List[List[int]]:
+    #     n = len(nums)
+    #     ans = []
+    #     used = [False] * n
+    #     tmp = []
+    #
+    #     def backtrack(depth=0):
+    #         if depth == n:
+    #             ans.append(tmp[:])
+    #             return
+    #         # 这里要对整个数组进行遍历
+    #         for i in range(0, n):
+    #             if not used[i]:
+    #                 used[i] = True
+    #                 tmp.append(nums[i])
+    #                 backtrack(depth + 1)
+    #                 used[i] = False
+    #                 tmp.pop()
+    #
+    #     backtrack()
+    #     return ans
 
 
 print(Solution().permute([1, 2, 3]))
