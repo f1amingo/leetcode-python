@@ -2,6 +2,7 @@ from typing import List
 
 
 class Solution:
+    # 必定有一半有序
     def search(self, nums: List[int], target: int) -> int:
         if not nums:
             return -1

@@ -1,30 +1,28 @@
 from typing import List
 
 
-# 下一个排列，字典序
-# 不存在下一个排序，则给出最小排列
 class Solution:
-    def nextPermutation(self, nums: List[int]) -> None:
-        n = len(nums)
-        flag = False
-        for i in range(n - 2, -1, -1):
-            if nums[i] < nums[i + 1]:
-                flag = True
-                break
-        # 整体降序，没有下一个更大排列
-        if not flag:
-            nums.reverse()
-            return
-        # 从i往后，找到第一个恰好大于nums[i]的数
-        t = i + 1
-        for j in range(i + 1, n):
-            if nums[j] > nums[i]:
-                if nums[j] < nums[t]:
-                    t = j
-        nums[i], nums[t] = nums[t], nums[i]
-        nums[i + 1:] = sorted(nums[i + 1:])
+    def search(self, A: List[int], target: int) -> int:
+        if not A:
+            return -1
+        lt, rt = 0, len(A) - 1
+        while lt < rt:
+            mid = (lt + rt) // 2
+            if A[lt] <= A[mid]:
+                if A[lt] <= target <= A[mid]:
+                    rt = mid
+                else:
+                    lt = mid + 1
+            else:
+                if A[mid] <= target <= A[rt]:
+                    lt = mid
+                else:
+                    rt = mid - 1
+
+        return lt if A[lt] == target else -1
 
 
-nums = [1,3,2]
-Solution().nextPermutation(nums)
-print(nums)
+assert Solution().search([4, 5, 6, 7, 0, 1, 2], 0) == 4
+assert Solution().search([4, 5, 6, 7, 0, 1, 2], 3) == -1
+assert Solution().search([1], 0) == -1
+assert Solution().search([5, 1, 3], 1) == 1
