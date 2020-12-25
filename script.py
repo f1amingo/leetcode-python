@@ -2,34 +2,29 @@ from typing import List
 
 
 class Solution:
-    def searchRange(self, nums: List[int], target: int) -> List[int]:
-        def findLeft():
-            lo, hi = 0, len(nums) - 1
-            while lo < hi:
-                mid = (lo + hi) // 2
-                if nums[mid] < target:
-                    lo = mid + 1
-                elif nums[mid] >= target:
-                    hi = mid
-            return lo if nums[lo] == target else -1
-
-        def findRight():
-            lo, hi = 0, len(nums) - 1
-            while lo < hi:
-                # 右中位数
-                mid = (lo + hi) // 2 + 1
-                if nums[mid] <= target:
-                    lo = mid
-                elif nums[mid] > target:
-                    hi = mid - 1
-            return lo if nums[lo] == target else -1
-
-        if not nums:
-            return [-1, -1]
-        lt = findLeft()
-        if lt == -1:
-            return [-1, -1]
-        return [lt, findRight()]
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        n = len(nums)
+        ans = []
+        for a in range(n - 2):
+            if nums[a] > 0:
+                break
+            if a > 0 and nums[a] == nums[a - 1]:
+                continue
+            b, c = a + 1, n - 1
+            while b < c:
+                tmp = nums[a] + nums[b] + nums[c]
+                if tmp == 0:
+                    ans.append([nums[a], nums[b], nums[c]])
+                if tmp >= 0:
+                    c -= 1
+                    while b < c and nums[c] == nums[c + 1]:
+                        c -= 1
+                if tmp <= 0:
+                    b += 1
+                    while b < c and nums[b] == nums[b - 1]:
+                        b += 1
+        return ans
 
 
-assert Solution().searchRange([5, 7, 7, 8, 8, 10], 8) == [3, 4]
+print(Solution().threeSum([-1, 0, 1, 2, -1, -4, -2, -3, 3, 0, 4]))
