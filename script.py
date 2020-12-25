@@ -1,23 +1,26 @@
-import collections
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+from util.List import ListNode
 
 
 class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
-        n = len(s)
-        ans = 0
-        lt = rt = 0
-        found = collections.defaultdict(int)
-        while rt < n:
-            found[s[rt]] += 1
-            if found[s[rt]] == 1:
-                ans = max(ans, rt - lt + 1)
-            while found[s[rt]] != 1 and lt < rt:
-                found[s[lt]] -= 1
-                lt += 1
-            rt += 1
-        return ans
-
-
-assert Solution().lengthOfLongestSubstring('abcabcbb') == 3
-assert Solution().lengthOfLongestSubstring('bbbbb') == 1
-assert Solution().lengthOfLongestSubstring('pwwkew') == 3
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        ptr = dummy = ListNode(-1)
+        carry = 0
+        while l1 or l2:
+            val = carry
+            if l1:
+                val += l1.val
+                l1 = l1.next
+            if l2:
+                val += l2.val
+                l2 = l2.next
+            carry, val = divmod(val, 10)
+            ptr.next = ListNode(val)
+            ptr = ptr.next
+        if carry:
+            ptr.next = ListNode(1)
+        return dummy.next
