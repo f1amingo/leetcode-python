@@ -1,19 +1,23 @@
+import collections
+
+
 class Solution:
-    def longestPalindrome(self, s: str) -> str:
+    def lengthOfLongestSubstring(self, s: str) -> int:
         n = len(s)
-        if n < 2:
-            return s
-        lt, rt = 0, 0
-        dp = [[False] * n for _ in range(n)]
-        for i in range(n - 1, -1, -1):
-            dp[i][i] = True
-            for j in range(i + 1, n):
-                if s[i] == s[j]:
-                    dp[i][j] = j - i < 3 or dp[i + 1][j - 1]
-                if dp[i][j] and j - i > rt - lt:
-                    lt, rt = i, j
-        return s[lt:rt + 1]
+        ans = 0
+        lt = rt = 0
+        found = collections.defaultdict(int)
+        while rt < n:
+            found[s[rt]] += 1
+            if found[s[rt]] == 1:
+                ans = max(ans, rt - lt + 1)
+            while found[s[rt]] != 1 and lt < rt:
+                found[s[lt]] -= 1
+                lt += 1
+            rt += 1
+        return ans
 
 
-print(Solution().longestPalindrome('cbbd'))
-print(Solution().longestPalindrome('babad'))
+assert Solution().lengthOfLongestSubstring('abcabcbb') == 3
+assert Solution().lengthOfLongestSubstring('bbbbb') == 1
+assert Solution().lengthOfLongestSubstring('pwwkew') == 3
