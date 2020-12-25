@@ -2,6 +2,7 @@ from typing import List
 
 
 class Solution:
+    # 相等的时候，移谁都可以，之后的更大值，只有在两块板都移出去之后才会出现
     def maxArea(self, height: List[int]) -> int:
         n = len(height)
         left = 0
