@@ -1,22 +1,19 @@
-from typing import List
-
-
 class Solution:
-    def maxArea(self, height: List[int]) -> int:
-        n = len(height)
-        lo, hi = 0, n - 1
-        ans = 0
-        while lo < hi:
-            if height[lo] < height[hi]:
-                ans = max(ans, (hi - lo) * height[lo])
-                lo += 1
-            else:
-                ans = max(ans, (hi - lo) * height[hi])
-                hi -= 1
-        return ans
+    def longestPalindrome(self, s: str) -> str:
+        n = len(s)
+        if n < 2:
+            return s
+        lt, rt = 0, 0
+        dp = [[False] * n for _ in range(n)]
+        for i in range(n - 1, -1, -1):
+            dp[i][i] = True
+            for j in range(i + 1, n):
+                if s[i] == s[j]:
+                    dp[i][j] = j - i < 3 or dp[i + 1][j - 1]
+                if dp[i][j] and j - i > rt - lt:
+                    lt, rt = i, j
+        return s[lt:rt + 1]
 
 
-assert Solution().maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]) == 49
-assert Solution().maxArea([1, 1]) == 1
-assert Solution().maxArea([4, 3, 2, 1, 4]) == 16
-assert Solution().maxArea([1, 2, 1]) == 2
+print(Solution().longestPalindrome('cbbd'))
+print(Solution().longestPalindrome('babad'))

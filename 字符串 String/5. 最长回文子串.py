@@ -1,4 +1,20 @@
 class Solution:
+    # dp
+    def longestPalindrome(self, s: str) -> str:
+        n = len(s)
+        if n < 2:
+            return s
+        lt, rt = 0, 0
+        dp = [[False] * n for _ in range(n)]
+        for i in range(n - 1, -1, -1):
+            dp[i][i] = True
+            for j in range(i + 1, n):
+                if s[i] == s[j]:
+                    dp[i][j] = j - i < 3 or dp[i + 1][j - 1]
+                if dp[i][j] and j - i > rt - lt:
+                    lt, rt = i, j
+        return s[lt:rt + 1]
+
     # My solution
     # def longestPalindrome(self, s: str) -> str:
     #     n = len(s)
@@ -66,25 +82,25 @@ class Solution:
     #     return s[start:end + 1]
 
     # using 1-D dp
-    def longestPalindrome(self, s: str) -> str:
-        n = len(s)
-        dp = [False] * n
-        start, end = 0, 0
-        # 倒序dp[i][j]依赖dp[i+1][j-1] 左下方
-        for i in range(n - 1, -1, -1):
-            for j in range(n - 1, i - 1, -1):
-                # 长度为1
-                if i == j:
-                    dp[j] = True
-                # 长度为2
-                elif j - i + 1 == 2:
-                    dp[j] = s[i] == s[j]
-                # 长度为3
-                else:
-                    dp[j] = s[i] == s[j] and dp[j - 1]
-                if dp[j] and j - i > end - start:
-                    start, end = i, j
-        return s[start:end + 1]
+    # def longestPalindrome(self, s: str) -> str:
+    #     n = len(s)
+    #     dp = [False] * n
+    #     start, end = 0, 0
+    #     # 倒序dp[i][j]依赖dp[i+1][j-1] 左下方
+    #     for i in range(n - 1, -1, -1):
+    #         for j in range(n - 1, i - 1, -1):
+    #             # 长度为1
+    #             if i == j:
+    #                 dp[j] = True
+    #             # 长度为2
+    #             elif j - i + 1 == 2:
+    #                 dp[j] = s[i] == s[j]
+    #             # 长度为3
+    #             else:
+    #                 dp[j] = s[i] == s[j] and dp[j - 1]
+    #             if dp[j] and j - i > end - start:
+    #                 start, end = i, j
+    #     return s[start:end + 1]
 
 
 print(Solution().longestPalindrome('cbbd'))
