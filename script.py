@@ -1,26 +1,10 @@
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-from util.List import ListNode
+# #Create the independent data set
+# for day in df_days:
+#     days.append([int(day.split('-')[4])])
+# #Create the dependent data set (adj close prices)
+# for adj_close_price in df_adj_close:
+#     adj_close_prices.append( float(adj_close_price))
+from pandas._libs.tslibs.timestamps import Timestamp
 
-
-class Solution:
-    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
-        ptr = dummy = ListNode(-1)
-        carry = 0
-        while l1 or l2:
-            val = carry
-            if l1:
-                val += l1.val
-                l1 = l1.next
-            if l2:
-                val += l2.val
-                l2 = l2.next
-            carry, val = divmod(val, 10)
-            ptr.next = ListNode(val)
-            ptr = ptr.next
-        if carry:
-            ptr.next = ListNode(1)
-        return dummy.next
+time = Timestamp()
+print(time)
