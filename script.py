@@ -1,23 +1,30 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-from util.ZTree import TreeNode
+from typing import List
 
 
-# BST中的第k小元素
-# 中序遍历升序，中序遍历的第k个节点值
+# n x n矩阵
+# 每行每列升序
+# 第k小的元素
 class Solution:
-    def kthSmallest(self, root: TreeNode, k: int) -> int:
-        cur, stk = root, []
-        while cur or stk:
-            while cur:
-                stk.append(cur)
-                cur = cur.left
-            cur = stk.pop()
-            k -= 1
-            if k == 0:
-                return cur.val
-            cur = cur.right
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        # 小于mid的元素数量
+        def check(mid: int):
+            i, j = n - 1, 0
+            count = 0
+            while i >= 0 and j < n:
+                if matrix[i][j] <= mid:
+                    count += i + 1
+                    j += 1
+                else:
+                    i -= 1
+            # 如果count大于k，说明mid过大了，需要减小
+            return count >= k
+
+        n = len(matrix)
+        lo, hi = matrix[0][0], matrix[-1][-1]
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if check(mid):
+                hi = mid
+            else:
+                lo = mid + 1
+        return lo
