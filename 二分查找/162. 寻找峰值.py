@@ -1,20 +1,17 @@
 from typing import List
 
 
+# 因为nums[-1]和nums[n]无穷小，所以沿着上升段爬升，最终一定会下降
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
-        # 思想：相邻两点决定的最小线段，如果上升则峰值在右边；否则峰值在左边
-        if not nums:
-            return -1
-        left, right = 0, len(nums) - 1
-        while left < right:
-            mid = (left + right) // 2
-            # 这里比较的是mid和mid+1
+        lo, hi = 0, len(nums) - 1
+        while lo < hi:
+            mid = (lo + hi) // 2
             if nums[mid] < nums[mid + 1]:
-                left = mid + 1
+                lo = mid + 1
             else:
-                right = mid
-        return left
+                hi = mid
+        return lo
 
 
-print(Solution().findPeakElement([1,2,1,3,5,6,4]))
+print(Solution().findPeakElement([1, 2, 1, 3, 5, 6, 4]))
