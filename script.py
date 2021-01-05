@@ -2,21 +2,30 @@ from typing import List
 
 
 class Solution:
-    # 双指针排除到k个元素
-    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
-        if x <= arr[0]:
-            return arr[:k]
-        if x >= arr[-1]:
-            return arr[len(arr) - k:]
-        lt, rt = 0, len(arr) - 1
-        while rt - lt + 1 > k:
-            if x - arr[lt] <= arr[rt] - x:
-                rt -= 1
+    def shipWithinDays(self, weights: List[int], D: int) -> int:
+        # 运载能力为capacity时，需要几天可以运完
+        def countDays(capacity: int) -> int:
+            count = 1
+            tmp = capacity
+            for w in weights:
+                if tmp >= w:
+                    tmp -= w
+                else:
+                    count += 1
+                    tmp = capacity - w
+            return count
+
+        # 下界是最重的物品，不然就运不走这个物品
+        lo, hi = max(weights), sum(weights)
+        while lo < hi:
+            mid = (lo + hi) >> 1
+            if D < countDays(mid):
+                lo = mid + 1
             else:
-                lt += 1
-        return arr[lt:rt + 1]
+                hi = mid
+        return lo
 
 
-assert Solution().findClosestElements([0, 0, 1, 2, 3, 3, 4, 7, 7, 8], 3, 5) == [3, 3, 4]
-assert Solution().findClosestElements([1, 2, 3, 4, 5], 4, 3) == [1, 2, 3, 4]
-assert Solution().findClosestElements([1, 2, 3, 4, 5], 4, -1) == [1, 2, 3, 4]
+assert Solution().shipWithinDays([1, 2, 3, 1, 1], 4) == 3
+assert Solution().shipWithinDays([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5) == 15
+assert Solution().shipWithinDays([3, 2, 2, 4, 1, 4], 3) == 6
