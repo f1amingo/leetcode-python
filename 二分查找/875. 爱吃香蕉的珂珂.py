@@ -3,6 +3,7 @@ import math
 
 
 # 一堆至少一小时
+# 二分法避免死循环：左中位数就一定要保证更新左边界时，lo = mid + 1
 class Solution:
     def minEatingSpeed(self, piles: List[int], H: int) -> int:
         # 以speed的速度吃香蕉需要花费的时间
