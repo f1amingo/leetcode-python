@@ -2,30 +2,14 @@ from typing import List
 
 
 class Solution:
-    def shipWithinDays(self, weights: List[int], D: int) -> int:
-        # 运载能力为capacity时，需要几天可以运完
-        def countDays(capacity: int) -> int:
-            count = 1
-            tmp = capacity
-            for w in weights:
-                if tmp >= w:
-                    tmp -= w
-                else:
-                    count += 1
-                    tmp = capacity - w
-            return count
-
-        # 下界是最重的物品，不然就运不走这个物品
-        lo, hi = max(weights), sum(weights)
-        while lo < hi:
-            mid = (lo + hi) >> 1
-            if D < countDays(mid):
-                lo = mid + 1
-            else:
-                hi = mid
-        return lo
+    def maxProfit(self, prices: List[int]) -> int:
+        s1, s2, s3, s4 = float('-inf'), 0, float('-inf'), 0
+        for p in prices:
+            s1 = max(s1, -p)
+            s2 = max(s2, s1 + p)
+            s3 = max(s3, s2 - p)
+            s4 = max(s4, s3 + p)
+        return max(s2, s4)
 
 
-assert Solution().shipWithinDays([1, 2, 3, 1, 1], 4) == 3
-assert Solution().shipWithinDays([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 5) == 15
-assert Solution().shipWithinDays([3, 2, 2, 4, 1, 4], 3) == 6
+assert Solution().maxProfit([3, 3, 5, 0, 0, 3, 1, 4]) == 6
