@@ -10,3 +10,5 @@ Solve LeetCode problems with Python, daily update, self-supervision.
 ## 刷题里程碑
 - 2020-12-15 开始按照easy 1分，medium 3分，hard 5分，每日20分的标准开始刷题。
 - 2020-12-28 刷了367题。正常的里程碑不应该是300吗，为什么你的数字这么奇怪？因为我这天才意识到有必要记录一下。。
+- 2021-1-10 400题成就达成！（虽然有很多easy T_T）
+![Milestone 400](https://raw.githubusercontent.com/smshen/MarkdownPhotos/master/Res/test.jpg)
