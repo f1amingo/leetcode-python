@@ -1,84 +1,20 @@
 from typing import List
 
 
+# goal: 满足尽可能多的孩子
+# 可以多吃，不能少吃
+# 饥饿度最小最容易吃饱，先考虑饥饿度最小的孩子
 class Solution:
-    def sortItems(self, n: int, m: int, group: List[int], beforeItems: List[List[int]]) -> List[int]:
-        groupId = m
-        for i in range(len(group)):
-            if group[i] == -1:
-                group[i] = groupId
-                groupId += 1
-
-        indegreeG = [0 for _ in range(groupId)]
-        indegreeI = [0 for _ in range(n)]
-        vectorG = [set() for _ in range(groupId)]
-        graphG = [set() for _ in range(groupId)]
-        graphI = [set() for _ in range(n)]
-
-        for i in range(len(group)):
-            vectorG[group[i]].add(i)
-
-        for i in range(len(beforeItems)):
-            for item in beforeItems[i]:
-                if group[i] == group[item]:
-                    indegreeI[i] += 1
-                    graphI[item].add(i)
-                else:
-                    if group[i] not in graphG[group[item]]:
-                        indegreeG[group[i]] += 1
-                        graphG[group[item]].add(group[i])
-
-        # group top sort
-        qu = []
-        orderG = []
-        for i in range(groupId):
-            if indegreeG[i] == 0:
-                qu.append(i)
-        if len(qu) == 0:
-            return []
-
-        while len(qu) > 0:
-            t = []
-            while len(qu) > 0:
-                curr = qu.pop()
-                orderG.append(curr)
-
-                for neg in graphG[curr]:
-                    indegreeG[neg] -= 1
-                    if indegreeG[neg] == 0:
-                        t.append(neg)
-            qu = t
-
-        if len(orderG) != groupId:
-            return []
-
-        # items top sort
-        res = []
-        for i in range(len(orderG)):
-
-            qu = []
-            for item in vectorG[orderG[i]]:
-                if indegreeI[item] == 0:
-                    qu.append(item)
-
-            count = 0
-            while len(qu) > 0:
-                t = []
-                while len(qu) > 0:
-                    curr = qu.pop()
-                    res.append(curr)
-                    count += 1
-
-                    for neg in graphI[curr]:
-                        indegreeI[neg] -= 1
-                        if indegreeI[neg] == 0:
-                            t.append(neg)
-                qu = t
-
-            if count != len(vectorG[orderG[i]]):
-                return []
-
-        return res
+    def findContentChildren(self, g: List[int], s: List[int]) -> int:
+        g.sort()
+        s.sort()
+        child, cookie = 0, 0
+        child_size, cookie_size = len(g), len(s)
+        while child < child_size and cookie < cookie_size:
+            if g[child] <= s[cookie]:
+                child += 1
+            cookie += 1
+        return child
 
 
-print(Solution().sortItems(8, 2, [-1, -1, 1, 0, 0, 1, 0, -1], [[], [6], [5], [6], [3, 6], [], [], []]))
+assert Solution().findContentChildren([1, 2, 3], [1, 1]) == 1
