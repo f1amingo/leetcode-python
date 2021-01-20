@@ -1,20 +1,41 @@
-from typing import List
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+from util.List import *
 
 
-# goal: 满足尽可能多的孩子
-# 可以多吃，不能少吃
-# 饥饿度最小最容易吃饱，先考虑饥饿度最小的孩子
 class Solution:
-    def findContentChildren(self, g: List[int], s: List[int]) -> int:
-        g.sort()
-        s.sort()
-        child, cookie = 0, 0
-        child_size, cookie_size = len(g), len(s)
-        while child < child_size and cookie < cookie_size:
-            if g[child] <= s[cookie]:
-                child += 1
-            cookie += 1
-        return child
+    def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
+        def reverse(h: ListNode) -> (ListNode, ListNode):
+            cur, pre = h, None
+            tail = h
+            while cur:
+                tmp = cur.next
+                cur.next = pre
+                cur, pre = tmp, cur
+            return pre, tail
+
+        dummy = ListNode(-1)
+        dummy.next = head
+        p1 = p2 = dummy
+        while p1.next:
+            flag = False
+            for _ in range(k):
+                if not p2.next:
+                    flag = True
+                    break
+                p2 = p2.next
+            if flag:
+                break
+            p2_next = p2.next
+            p2.next = None
+            this_head, this_tail = reverse(p1.next)
+            p1.next = this_head
+            this_tail.next = p2_next
+            p1 = p2 = this_tail
+        return dummy.next
 
 
-assert Solution().findContentChildren([1, 2, 3], [1, 1]) == 1
+printLinkedList(Solution().reverseKGroup(toLinkedList([1, 2, 3, 4, 5]), 3))
