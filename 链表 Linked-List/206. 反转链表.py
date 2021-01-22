@@ -4,7 +4,11 @@ class ListNode:
         self.val = x
         self.next = None
 
-
+# 1. 终止条件：递归和迭代何时停止？聚焦在当前操作节点
+# 边界条件：cur指向head和tail时如何操作？
+# 2. 初始化：迭代需要声明哪些变量？
+# 3. 如何反转当前节点：反转对于一个节点意味着什么？
+# 4. 返回值：哪个才是反转后的新头结点？
 class Solution:
     # 递归
     # def reverseList(self, head: ListNode) -> ListNode:
