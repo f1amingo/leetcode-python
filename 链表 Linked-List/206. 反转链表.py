@@ -8,26 +8,36 @@ class ListNode:
 class Solution:
     # 递归
     # def reverseList(self, head: ListNode) -> ListNode:
-    #     pre = None
-    #     cur = head
+    #     # 初始化：pre为前一个节点，cur为后一个节点
+    #     # 所有操作均从cur的出发
+    #     # 原本的head反转后变成tail，tail.next应该为None，因此pre初始为None
+    #     pre, cur = None, head
+    #     # cur先到尾部，循环体内必须保证cur不为空
     #     while cur:
-    #         tmp = cur.next
+    #         # 为了反转cur需要指向pre，这样会把本来的cur.next丢弃，导致链表断开，因此需要保存cur.next
+    #         next = cur.next
+    #         # 反转整个链表，只需要逐个节点反转
+    #         # 对于cur这一个节点而言，反转就是指向前一个节点(pre)，而不再是后一个节点(next)
     #         cur.next = pre
-    #         pre = cur
-    #         cur = tmp
+    #         # pre, cur都往前走一步，准备下一轮迭代
+    #         pre, cur = cur, next
+    #     # 循环能结束说cur一定为None，如果再返回cur，脑子秀逗了？
     #     return pre
 
-    # 迭代
+    # 递归
     def reverseList(self, head: ListNode) -> ListNode:
+        # 递归终止条件：head为空，或者只有一个节点显然不需要反转
         if not (head and head.next):
             return head
-        re_node = self.reverseList(head.next)
-        # 这里不可以写re_node.next = head
-        # 注意re_node是原链表的尾结点，新链表的头结点
-        # 下面是反转一对结点
-        head.next.next = head  # 这里你老是写不出来！！！
+        # 对于当前节点head，首先反转之后的部分(head.next)
+        # 返回值re_head是反转后的头结点
+        re_head = self.reverseList(head.next)
+        # 实际对当前节点head进行反转，让下一个节点指向自己，然后自己指向None
+        # 为什么自己可以指向None？因为此时之后的部分已经被反转了，不再需要被访问
+        head.next.next = head  # 这里老是写不出来！！！
         head.next = None
-        return re_node
+        # 返回头结点，可以看到头结点在整个调用栈中，被层层传递
+        return re_head
 
 
 node1 = ListNode(1)
