@@ -18,9 +18,12 @@ class Solution:
             lt, rt = i + 1, n - 1
             while lt < rt:
                 this_sum = nums[i] + nums[lt] + nums[rt]
+                # 注意这里三个if的写法
                 if this_sum == 0:
+                    # 等的时候，不能跳出循环
                     res.append([nums[i], nums[lt], nums[rt]])
                 if this_sum <= 0:
+                    # 小了，lt右移，找到下一个不同的数
                     while lt < rt and nums[lt] == nums[lt + 1]:
                         lt += 1
                     lt += 1
@@ -57,5 +60,6 @@ class Solution:
     #     return res
 
 
+print(Solution().threeSum([0, 0, 0, 0]))
 # print(Solution().threeSum([-2, 0, 1, 1, 2]))
 print(Solution().threeSum([-1, 0, 1, 2, -1, -4]))

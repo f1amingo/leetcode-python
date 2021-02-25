@@ -1,30 +1,40 @@
 from typing import List
 
 
-# 整数数组，正负数
-# 两个数的和为目标值
-# 返回两个数的下标
-# 可重复，每个数只能用一次
+# 所有三元组，并且不重复
 class Solution:
-    # 哈希表：时间O(n)，空间O(n)
-    # 暴力慢是因为查找target-num太慢，
-    # 因此可以使用hash map保存出现过的数字、下标
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        lookup = {}
-        for i, num in enumerate(nums):
-            tmp = target - num
-            if tmp in lookup:
-                return [lookup[tmp], i]
-            lookup[num] = i
 
-    # 暴力：O(n^2)
-    # def twoSum(self, nums: List[int], target: int) -> List[int]:
-    #     for i in range(len(nums)):
-    #         for j in range(i + 1, len(nums)):
-    #             if nums[i] + nums[j] == target:
-    #                 return [i, j]
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        n = len(nums)
+        if n < 3:
+            return []
+        nums.sort()
+        ans = []
+        for i in range(n - 2):
+            # 优化
+            if nums[i] > 0:
+                break
+            # 避免重复
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            lt, rt = i + 1, n - 1
+            while lt < rt:
+                this_sum = nums[i] + nums[lt] + nums[rt]
+                if this_sum == 0:
+                    ans.append([nums[i], nums[lt], nums[rt]])
+                if this_sum <= 0:
+                    # 小了，lt右移
+                    while lt < rt and nums[lt] == nums[lt + 1]:
+                        lt += 1
+                    lt += 1
+                if this_sum >= 0:
+                    while lt < rt and nums[rt] == nums[rt - 1]:
+                        rt -= 1
+                    rt -= 1
+        return ans
 
 
-assert Solution().twoSum([2, 7, 11, 15], 9) == [0, 1]
-assert Solution().twoSum([3, 2, 4], 6) == [1, 2]
-assert Solution().twoSum([3, 3], 6) == [0, 1]
+assert Solution().threeSum([0, 0, 0, 0]) == [[0, 0, 0]]
+assert Solution().threeSum([-1, 0, 1, 2, -1, -4]) == [[-1, -1, 2], [-1, 0, 1]]
+assert Solution().threeSum([]) == []
+assert Solution().threeSum([0]) == []
