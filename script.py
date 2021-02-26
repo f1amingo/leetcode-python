@@ -1,26 +1,45 @@
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-from util.ZList import ListNode
+from typing import List
 
 
 class Solution:
-    def deleteDuplicates(self, head: ListNode) -> ListNode:
-        if not head or not head.next:
-            return head
-        # 头结点可能改变，使用dummy简化问题
-        dummy = ListNode(-1)
-        dummy.next = head
-        pre, ptr = dummy, head
-        while ptr and ptr.next:
-            if ptr.val == ptr.next.val:
-                while ptr.next and ptr.val == ptr.next.val:
-                    ptr = ptr.next
-                ptr = ptr.next
-                pre.next = ptr
-            else:
-                pre = ptr
-                ptr = ptr.next
-        return dummy.next
+    def sortArray(self, nums: List[int]) -> List[int]:
+        def merge(A, lo, mid, hi, tmp):
+            i, j, pos = lo, mid + 1, lo
+            while i <= mid and j <= hi:
+                # 等于，稳定性保证
+                if A[i] <= A[j]:
+                    tmp[pos] = A[i]
+                    i += 1
+                else:
+                    tmp[pos] = A[j]
+                    j += 1
+                pos += 1
+            for k in range(i, mid + 1):
+                tmp[pos] = A[k]
+                pos += 1
+            for k in range(j, hi + 1):
+                tmp[pos] = A[k]
+                pos += 1
+            A[lo:hi + 1] = tmp[lo:hi + 1]
+
+        # [lo, hi]
+        def merge_sort(A, lo, hi, tmp):
+            # 至少两个元素，如果等于只有一个元素，已经有序
+            if lo < hi:
+                # 奇怪的优先级
+                # mid = lo + ((hi - lo) >> 1)
+                mid = lo + (hi - lo) // 2
+                merge_sort(A, lo, mid, tmp)
+                merge_sort(A, mid + 1, hi, tmp)
+                # 优化
+                if A[mid] <= A[mid + 1]:
+                    return
+                merge(A, lo, mid, hi, tmp)
+
+        n = len(nums)
+        merge_sort(nums, 0, n - 1, [0] * n)
+        return nums
+
+
+assert Solution().sortArray([5, 2, 3, 1]) == [1, 2, 3, 5]
+assert Solution().sortArray([5, 1, 1, 2, 0, 0]) == [0, 0, 1, 1, 2, 5]

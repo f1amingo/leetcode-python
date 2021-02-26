@@ -1,37 +1,80 @@
-def merge(a, tmp, low, mid, high):
-    i, j, pos = low, mid + 1, low
-    while i <= mid and j <= high:
-        # 等于，稳定性保证
-        if a[i] <= a[j]:
-            tmp[pos] = a[i]
-            i += 1
-        else:
-            tmp[pos] = a[j]
-            j += 1
-        pos += 1
-    for k in range(i, mid + 1):
-        tmp[pos] = a[k]
-        pos += 1
-    for k in range(j, high + 1):
-        tmp[pos] = a[k]
-        pos += 1
-    a[low:high + 1] = tmp[low:high + 1]
+from typing import List
 
 
-# [low, high]
-def mergeSort(a, tmp, low, high):
-    # 注意判断条件，这里要确保有两个元素，一个元素时即可跳出
-    if low < high:
-        mid = (low + high) // 2
-        mergeSort(a, tmp, low, mid)
-        mergeSort(a, tmp, mid + 1, high)
-        # 优化
-        if a[mid] <= a[mid + 1]:
-            return
-        merge(a, tmp, low, mid, high)
+class Solution:
+    # 迭代
+    def sortArray(self, nums: List[int]) -> List[int]:
+        def merge(A, lo, mid, hi, tmp):
+            i, j, pos = lo, mid + 1, lo
+            while i <= mid and j <= hi:
+                # 等于，稳定性保证
+                if A[i] <= A[j]:
+                    tmp[pos] = A[i]
+                    i += 1
+                else:
+                    tmp[pos] = A[j]
+                    j += 1
+                pos += 1
+            for k in range(i, mid + 1):
+                tmp[pos] = A[k]
+                pos += 1
+            for k in range(j, hi + 1):
+                tmp[pos] = A[k]
+                pos += 1
+            A[lo:hi + 1] = tmp[lo:hi + 1]
+
+        n = len(nums)
+        tmp = [0] * n
+        sz = 1  # 子数组大小
+        while sz < n:
+            lo = 0
+            # 剩下的要能拆成两个sz
+            while lo < n - sz:
+                # merge相同
+                merge(nums, lo, lo + sz - 1, min(lo + sz + sz - 1, n - 1), tmp)
+                lo += sz + sz
+            sz += sz
+        return nums
+
+    # 递归
+    # def sortArray(self, nums: List[int]) -> List[int]:
+    #     def merge(A, lo, mid, hi, tmp):
+    #         i, j, pos = lo, mid + 1, lo
+    #         while i <= mid and j <= hi:
+    #             # 等于，稳定性保证
+    #             if A[i] <= A[j]:
+    #                 tmp[pos] = A[i]
+    #                 i += 1
+    #             else:
+    #                 tmp[pos] = A[j]
+    #                 j += 1
+    #             pos += 1
+    #         for k in range(i, mid + 1):
+    #             tmp[pos] = A[k]
+    #             pos += 1
+    #         for k in range(j, hi + 1):
+    #             tmp[pos] = A[k]
+    #             pos += 1
+    #         A[lo:hi + 1] = tmp[lo:hi + 1]
+    #
+    #     # [lo, hi]
+    #     def merge_sort(A, lo, hi, tmp):
+    #         # 至少两个元素，如果等于只有一个元素，已经有序
+    #         if lo < hi:
+    #             # 奇怪的优先级
+    #             # mid = lo + ((hi - lo) >> 1)
+    #             mid = lo + (hi - lo) // 2
+    #             merge_sort(A, lo, mid, tmp)
+    #             merge_sort(A, mid + 1, hi, tmp)
+    #             # 优化
+    #             if A[mid] <= A[mid + 1]:
+    #                 return
+    #             merge(A, lo, mid, hi, tmp)
+    #
+    #     n = len(nums)
+    #     merge_sort(nums, 0, n - 1, [0] * n)
+    #     return nums
 
 
-arr = [-2, 3, -5]
-tmp = [0] * len(arr)
-mergeSort(arr, tmp, 0, len(arr) - 1)
-print(arr)
+assert Solution().sortArray([5, 2, 3, 1]) == [1, 2, 3, 5]
+assert Solution().sortArray([5, 1, 1, 2, 0, 0]) == [0, 0, 1, 1, 2, 5]
