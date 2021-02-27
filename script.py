@@ -2,44 +2,28 @@ from typing import List
 
 
 class Solution:
-    def sortArray(self, nums: List[int]) -> List[int]:
-        def merge(A, lo, mid, hi, tmp):
-            i, j, pos = lo, mid + 1, lo
-            while i <= mid and j <= hi:
-                # 等于，稳定性保证
-                if A[i] <= A[j]:
-                    tmp[pos] = A[i]
-                    i += 1
-                else:
-                    tmp[pos] = A[j]
-                    j += 1
-                pos += 1
-            for k in range(i, mid + 1):
-                tmp[pos] = A[k]
-                pos += 1
-            for k in range(j, hi + 1):
-                tmp[pos] = A[k]
-                pos += 1
-            A[lo:hi + 1] = tmp[lo:hi + 1]
-
-        # [lo, hi]
-        def merge_sort(A, lo, hi, tmp):
-            # 至少两个元素，如果等于只有一个元素，已经有序
-            if lo < hi:
-                # 奇怪的优先级
-                # mid = lo + ((hi - lo) >> 1)
-                mid = lo + (hi - lo) // 2
-                merge_sort(A, lo, mid, tmp)
-                merge_sort(A, mid + 1, hi, tmp)
-                # 优化
-                if A[mid] <= A[mid + 1]:
-                    return
-                merge(A, lo, mid, hi, tmp)
-
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
         n = len(nums)
-        merge_sort(nums, 0, n - 1, [0] * n)
-        return nums
-
-
-assert Solution().sortArray([5, 2, 3, 1]) == [1, 2, 3, 5]
-assert Solution().sortArray([5, 1, 1, 2, 0, 0]) == [0, 0, 1, 1, 2, 5]
+        if n < 3:
+            return []
+        nums.sort()
+        ans = []
+        for i in range(n - 2):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            if nums[i] > 0:
+                break
+            lt, rt = i + 1, n - 1
+            while lt < rt:
+                this_sum = nums[i] + nums[lt] + nums[rt]
+                if this_sum == 0:
+                    ans.append([nums[i], nums[lt], nums[rt]])
+                if this_sum <= 0:
+                    lt += 1
+                    while lt < rt and nums[lt] == nums[lt - 1]:
+                        lt += 1
+                if this_sum >= 0:
+                    rt -= 1
+                    while lt < rt and nums[rt] == nums[rt + 1]:
+                        rt -= 1
+        return ans
