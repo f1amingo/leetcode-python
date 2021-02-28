@@ -1,29 +1,35 @@
-from typing import List
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+from util.ZList import ListNode
 
 
+# 每个节点右移k，k>=0
+# 1. k<N; k==N; k>N
+# 找到连接点，断开，重连
 class Solution:
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
-        n = len(nums)
-        if n < 3:
-            return []
-        nums.sort()
-        ans = []
-        for i in range(n - 2):
-            if i > 0 and nums[i] == nums[i - 1]:
-                continue
-            if nums[i] > 0:
-                break
-            lt, rt = i + 1, n - 1
-            while lt < rt:
-                this_sum = nums[i] + nums[lt] + nums[rt]
-                if this_sum == 0:
-                    ans.append([nums[i], nums[lt], nums[rt]])
-                if this_sum <= 0:
-                    lt += 1
-                    while lt < rt and nums[lt] == nums[lt - 1]:
-                        lt += 1
-                if this_sum >= 0:
-                    rt -= 1
-                    while lt < rt and nums[rt] == nums[rt + 1]:
-                        rt -= 1
-        return ans
+    def rotateRight(self, head: ListNode, k: int) -> ListNode:
+        if not head or not head.next or k == 0:
+            return head
+        N, ptr = 0, head
+        while ptr:
+            N += 1
+            ptr = ptr.next
+        k = k % N
+        if k == 0:
+            return head
+        # 头结点会变
+        dummy = ListNode(-1)
+        dummy.next = head
+        slow, fast = dummy, dummy
+        for _ in range(k):
+            fast = fast.next
+        while slow and fast.next:
+            slow = slow.next
+            fast = fast.next
+        dummy.next = slow.next
+        slow.next = None
+        fast.next = head
+        return dummy.next
