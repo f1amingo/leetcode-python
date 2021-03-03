@@ -9,12 +9,14 @@ class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
         size = len(nums)
         for i in range(size):
+            # 下标不越界
             while 1 <= nums[i] <= size and nums[i] != nums[nums[i] - 1]:
                 j = nums[i] - 1  # 存下来
                 nums[i], nums[j] = nums[j], nums[i]
         for i, num in enumerate(nums):
             if i != num - 1:
                 return i + 1
+        # 走到这里说明，数组形如[1,2,3,...,N]，第一个未出现的正数为 N+1
         return size + 1  # 没写出来
 
     # 先加入hash表，然后从1开始枚举

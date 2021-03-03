@@ -1,7 +1,10 @@
+# 题目来源：https://www.lintcode.com/problem/median
+
 # 无序数组，不是数学上的中位数，而是排在中间的数
 # 奇数，中间的值；偶数，排序后第N//2个元素
 # 1. 排序，O(NlogN)
 # 2. 大小为N//2+1的堆
+# 3. 快速选择
 class Solution:
     """
     @param nums: A list of integers
