@@ -1,15 +1,23 @@
+from typing import List
+
+
+# 出现次数超过一半
+# 1. 排序 O(NlogN)
+# 2. hash计数 O(N), O(N)
+# 3. 摩尔投票法
 class Solution:
-    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        m, n = len(text1), len(text2)
-        dp = [[0] * (n + 1) for i in range(m + 1)]
-        for i in range(m):
-            for j in range(n):
-                if text1[i] == text2[j]:
-                    dp[i + 1][j + 1] = dp[i][j] + 1
+    def majorityElement(self, nums: List[int]) -> int:
+        ans, count = 0, 0
+        for num in nums:
+            if count == 0:
+                ans = num
+                count += 1
+            else:
+                if num == ans:
+                    count += 1
                 else:
-                    dp[i + 1][j + 1] = max(dp[i + 1][j], dp[i][j + 1])
-        return dp[-1][-1]
+                    count -= 1
+        return ans
 
 
-assert Solution().longestCommonSubsequence("abcde", "ace") == 3
-assert Solution().longestCommonSubsequence("abc", "abc") == 3
+assert Solution().majorityElement([1, 2, 3, 2, 2, 2, 5, 4, 2]) == 2
