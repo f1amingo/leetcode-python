@@ -1,24 +1,17 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-from util.ZTree import TreeNode
+from typing import List
 
 
 class Solution:
-    def sumNumbers(self, root: TreeNode) -> int:
-        def dfs(node: TreeNode, t: int):
-            if not node:
-                return
-            t = 10 * t + node.val
-            if not node.left and not node.right:
-                nonlocal ans
-                ans += t
-            dfs(node.left, t)
-            dfs(node.right, t)
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        N = len(nums)
+        for i in range(N):
+            while 1 <= nums[i] <= N and nums[nums[i] - 1] != nums[i]:
+                j = nums[i] - 1
+                nums[i], nums[j] = nums[j], nums[i]
+        for i in range(N):
+            if nums[i] != i + 1:
+                return i + 1
+        return N + 1
 
-        ans = 0
-        dfs(root, 0)
-        return ans
+
+assert Solution().firstMissingPositive([1, 2, 3]) == 4
