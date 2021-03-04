@@ -1,23 +1,26 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 from typing import List
 
+from util.ZTree import TreeNode
 
-# 出现次数超过一半
-# 1. 排序 O(NlogN)
-# 2. hash计数 O(N), O(N)
-# 3. 摩尔投票法
+
 class Solution:
-    def majorityElement(self, nums: List[int]) -> int:
-        ans, count = 0, 0
-        for num in nums:
-            if count == 0:
-                ans = num
-                count += 1
-            else:
-                if num == ans:
-                    count += 1
-                else:
-                    count -= 1
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+        stk = [root]
+        ans = []
+        while stk:
+            cur = stk.pop()
+            ans.append(cur.val)
+            if cur.left:
+                stk.append(cur.left)
+            if cur.right:
+                stk.append(cur.right)
+        ans.reverse()
         return ans
-
-
-assert Solution().majorityElement([1, 2, 3, 2, 2, 2, 5, 4, 2]) == 2

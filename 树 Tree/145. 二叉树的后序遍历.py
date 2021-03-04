@@ -8,6 +8,8 @@ from util.ZTree import *
 
 
 class Solution:
+    # 后序LRN -> NRL遍历，再反转
+    # 类似前序遍历
     def postorderTraversal(self, root: TreeNode) -> List[int]:
         if not root:
             return []
