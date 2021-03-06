@@ -1,41 +1,29 @@
 from typing import List
 
 
+# 返回索引，可能没有，返回-1
+# 不重复，某位置旋转，可能没旋转
 class Solution:
-    def reversePairs(self, nums: List[int]) -> int:
-        def merge(A: List, lo: int, mid: int, hi: int, tmp: List):
-            i, j = lo, mid + 1
-            pos = lo
-            nonlocal ans
-            while i <= mid and j <= hi:
-                if A[i] <= A[j]:
-                    tmp[pos] = A[i]
-                    i += 1
+    def search(self, nums: List[int], target: int) -> int:
+        if not nums:
+            return -1
+        lt, rt = 0, len(nums) - 1
+        while lt < rt:
+            mid = (lt + rt) // 2
+            # 前半有序
+            if nums[lt] <= nums[mid]:
+                if nums[lt] <= target <= nums[mid]:
+                    rt = mid
                 else:
-                    tmp[pos] = A[j]
-                    j += 1
-                    ans += mid - i + 1
-                pos += 1
-            for k in range(i, mid + 1):
-                tmp[pos] = A[k]
-                pos += 1
-            for k in range(j, hi + 1):
-                tmp[pos] = A[k]
-                pos += 1
-            A[lo:hi + 1] = tmp[lo:hi + 1]
-
-        def merge_sort(A: List, lo: int, hi: int, tmp: List):
-            if lo < hi:
-                mid = (lo + hi) // 2
-                merge_sort(A, lo, mid, tmp)
-                merge_sort(A, mid + 1, hi, tmp)
-                if A[mid] <= A[mid + 1]:
-                    return
-                merge(A, lo, mid, hi, tmp)
-
-        ans = 0
-        merge_sort(nums, 0, len(nums) - 1, [0] * len(nums))
-        return ans
+                    lt = mid + 1
+            else:
+                if nums[mid] < target <= nums[rt]:
+                    lt = mid + 1
+                else:
+                    rt = mid
+        return lt if nums[lt] == target else -1
 
 
-assert Solution().reversePairs([7, 5, 6, 4]) == 5
+assert Solution().search([4, 5, 6, 7, 0, 1, 2], 0) == 4
+assert Solution().search([4, 5, 6, 7, 0, 1, 2], 0) == 4
+assert Solution().search([4, 5, 6, 7, 0, 1, 2], 0) == 4
