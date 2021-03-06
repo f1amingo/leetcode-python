@@ -1,44 +1,41 @@
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-from util.ZList import *
+from typing import List
 
 
 class Solution:
-    def sortList(self, head: ListNode) -> ListNode:
-        def merge(a, b) -> ListNode:
-            dummy = ptr = ListNode(-1)
-            while a or b:
-                if not a:
-                    ptr.next = b
-                    b = b.next
-                elif not b:
-                    ptr.next = a
-                    a = a.next
+    def reversePairs(self, nums: List[int]) -> int:
+        def merge(A: List, lo: int, mid: int, hi: int, tmp: List):
+            i, j = lo, mid + 1
+            pos = lo
+            nonlocal ans
+            while i <= mid and j <= hi:
+                if A[i] <= A[j]:
+                    tmp[pos] = A[i]
+                    i += 1
                 else:
-                    if a.val <= b.val:
-                        ptr.next = a
-                        a = a.next
-                    else:
-                        ptr.next = b
-                        b = b.next
-                ptr = ptr.next
-            return dummy.next
+                    tmp[pos] = A[j]
+                    j += 1
+                    ans += mid - i + 1
+                pos += 1
+            for k in range(i, mid + 1):
+                tmp[pos] = A[k]
+                pos += 1
+            for k in range(j, hi + 1):
+                tmp[pos] = A[k]
+                pos += 1
+            A[lo:hi + 1] = tmp[lo:hi + 1]
 
-        if not head or not head.next:
-            return head
-        slow, fast = head, head.next
-        while fast and fast.next:
-            fast = fast.next.next
-            slow = slow.next
-        mid = slow.next
-        slow.next = None
-        h1 = self.sortList(head)
-        h2 = self.sortList(mid)
-        return merge(h1, h2)
+        def merge_sort(A: List, lo: int, hi: int, tmp: List):
+            if lo < hi:
+                mid = (lo + hi) // 2
+                merge_sort(A, lo, mid, tmp)
+                merge_sort(A, mid + 1, hi, tmp)
+                if A[mid] <= A[mid + 1]:
+                    return
+                merge(A, lo, mid, hi, tmp)
+
+        ans = 0
+        merge_sort(nums, 0, len(nums) - 1, [0] * len(nums))
+        return ans
 
 
-h = toLinkedList([4, 2, 1, 3])
-printLinkedList(Solution().sortList(h))
+assert Solution().reversePairs([7, 5, 6, 4]) == 5
