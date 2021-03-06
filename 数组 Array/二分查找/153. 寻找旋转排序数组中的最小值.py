@@ -7,17 +7,28 @@ from typing import List
 # 在5上旋转：[1,2,3,4,5] (不变)
 # 找出最小元素
 class Solution:
+    # 只考虑后半部分
     def findMin(self, nums: List[int]) -> int:
         lo, hi = 0, len(nums) - 1
         while lo < hi:
             mid = (lo + hi) // 2
-            if nums[lo] > nums[mid]:  # 前半无序
+            if nums[mid] < nums[hi]:  # 后半有序
                 hi = mid
-            elif nums[mid] > nums[hi]:  # 前半有序
+            else:
                 lo = mid + 1
-            else:  # 前后都有序
-                return min(nums[lo], nums[mid + 1])
         return nums[lo]
+
+    # def findMin(self, nums: List[int]) -> int:
+    #     lo, hi = 0, len(nums) - 1
+    #     while lo < hi:
+    #         mid = (lo + hi) // 2
+    #         if nums[lo] > nums[mid]:  # 前半无序
+    #             hi = mid
+    #         elif nums[mid] > nums[hi]:  # 前半有序
+    #             lo = mid + 1
+    #         else:  # 前后都有序
+    #             return min(nums[lo], nums[mid + 1])
+    #     return nums[lo]
 
     # def findMin(self, nums: List[int]) -> int:
     #     if not nums:
@@ -56,4 +67,4 @@ class Solution:
     #     return nums[left]
 
 
-print(Solution().findMin([4, 5, 6, 7, 0, 1, 2]))
+assert Solution().findMin([4, 5, 6, 7, 0, 1, 2]) == 0
