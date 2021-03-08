@@ -1,10 +1,11 @@
 from typing import List
 
 
+# 十进制转N进制：除N取余，倒序排列
 # 进制转换：给定一个十进制数M，以及需要转换的进制数N。将十进制数M转化为N进制数。
 # 输入为一行，M(32位整数)、N(2 ≤ N ≤ 16)，以空格隔开。
 def decimal_to_n_base(M: int, N: int) -> str:
-    digits = '0123456789ABCDEF'
+    digits = '0123456789ABCDEFGHIJKLMNOPQRSTVUWXYZ'
     flag = False  # 是否负数
     if M < 0:
         flag = True
@@ -20,6 +21,8 @@ def decimal_to_n_base(M: int, N: int) -> str:
 
 
 if __name__ == '__main__':
+    print(decimal_to_n_base(35, 36))
+
     assert decimal_to_n_base(7, 2) == '111'
     assert decimal_to_n_base(10, 16) == 'A'
     assert decimal_to_n_base(11, 16) == 'B'
