@@ -1,16 +1,14 @@
-from util.ZTree import TreeNode
+from typing import List
 
 
 class Solution:
-    def isSymmetric(self, root: TreeNode) -> bool:
-        # 判断两棵树是否镜像对称
-        def isSym(node1: TreeNode, node2: TreeNode) -> bool:
-            if not node1 and not node2:
-                return True
-            if not node1 or not node2:
-                return False
-            if node1.val != node2.val:
-                return False
-            return isSym(node1.left, node2.right) and isSym(node1.right, node2.left)
+    def maxProfit(self, prices: List[int]) -> int:
+        a, b = 0, float('inf')
+        for p in prices:
+            a = max(a, p - b)
+            b = min(b, p)
+        return a
 
-        return isSym(root, root)
+
+assert Solution().maxProfit([7, 1, 5, 3, 6, 4]) == 5
+assert Solution().maxProfit([7, 6, 4, 3, 1]) == 0
