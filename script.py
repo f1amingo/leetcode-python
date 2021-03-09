@@ -3,12 +3,12 @@ from typing import List
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        a, b = 0, float('inf')
+        hold, sell = float('-inf'), 0
         for p in prices:
-            a = max(a, p - b)
-            b = min(b, p)
-        return a
+            hold0 = sell - p
+            sell0 = hold + p
+            sell, hold = max(sell, sell0), max(hold, hold0)
+        return sell
 
 
-assert Solution().maxProfit([7, 1, 5, 3, 6, 4]) == 5
-assert Solution().maxProfit([7, 6, 4, 3, 1]) == 0
+assert Solution().maxProfit([7, 1, 5, 3, 6, 4]) == 7
