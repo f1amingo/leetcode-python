@@ -8,6 +8,7 @@ from util.ZTree import TreeNode
 
 
 class Solution:
+    # 关键在于比较左右孩子的高度
     def isBalanced(self, root: TreeNode) -> bool:
         # 如何理解这个递归函数
         # 返回树的高度，max(L, R) + 1
