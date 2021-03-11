@@ -2,16 +2,15 @@ from typing import List
 
 
 class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        a, b, c, d = float('-inf'), 0, float('-inf'), 0
-        for p in prices:
-            a0 = max(a, -p)
-            b0 = max(b, a + p)
-            c0 = max(c, b - p)
-            d0 = max(d, c + p)
-            a, b, c, d = a0, b0, c0, d0
-        return d
+    def comb(self, n: int, k: int) -> int:
+        dp = [0] * (k + 1)
+
+        dp = [[0] * (k + 1) for _ in range(n)]
+        for i in range(n):
+            for j in range(k + 1):
+                for p in range(j + 1):
+                    dp[i][j] += dp[i][]
+        return dp[-1][-1]
 
 
-assert Solution().maxProfit([3, 3, 5, 0, 0, 3, 1, 4]) == 6
-assert Solution().maxProfit([0, 5]) == 5
+print(Solution().maxProfit(2, [2, 4, 1]))
