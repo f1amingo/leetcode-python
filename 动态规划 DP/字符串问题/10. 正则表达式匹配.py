@@ -8,7 +8,11 @@ class Solution:
         n, m = len(s), len(p)
         f = [[False] * (m + 1) for _ in range(n + 1)]
         f[0][0] = True  # 空匹配空
-        # p能否匹配掉''
+        # 初始化：
+        # 1.s, p均为空可以匹配
+        # 2.s为空，p不空，可能匹配（a*b*c*）
+        # 3.s不空，p为空，绝对不能匹配
+        # p能否匹配掉空的s('')
         for j in range(1, m + 1):
             f[0][j] = p[j - 1] == '*' and f[0][j - 2]
 
