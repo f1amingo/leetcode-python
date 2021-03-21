@@ -1,72 +1,47 @@
-# 字符串s是否匹配模式p
-# . 匹配任意单字符
-# * 匹配零或多个前面的那一个元素
+from typing import List
 
-# dp[i][j]: s[:i+1]能否匹配p[:j+1]
+
+# 子数组，连续
+# 比较符号翻转
+# 1.长度为1，则返回1
+# f[i]: 以A[i]结尾，最长湍流子数组长度
 class Solution:
-    def isMatch(self, s: str, p: str) -> bool:
-        n, m = len(s), len(p)
-        f = [[False] * (m + 1) for _ in range(n + 1)]
-        f[0][0] = True  # 空匹配空
-        # p能否匹配掉''
-        for j in range(1, m + 1):
-            f[0][j] = p[j - 1] == '*' and f[0][j - 2]
+    # dp[i]只依赖于dp[i-1]，可将状态压缩到常数
+    def maxTurbulenceSize(self, A: List[int]) -> int:
+        n = len(A)
+        if n < 2:
+            return n
+        # 对应dp[1]的初始化
+        cur = 1 if A[0] == A[1] else 2
+        res = cur
+        for i in range(2, n):
+            tmp = 1
+            if A[i] != A[i - 1]:
+                tmp = 2  # 至少[A[i-1], A[i]]是湍流子数组
+                if A[i - 2] > A[i - 1] < A[i] or A[i - 2] < A[i - 1] > A[i]:
+                    tmp = cur + 1
+                    res = max(res, tmp)
+            cur = tmp
+        return res
 
-        for i in range(1, n + 1):
-            # 正则至少要有一个
-            for j in range(1, m + 1):
-                if p[j - 1] == '*':
-                    # 'p[j-2]*'匹配零次
-                    if f[i][j - 2]:
-                        f[i][j] = True
-                    # p[j-2]再匹配一次s[i-1]
-                    elif s[i - 1] == p[j - 2] and f[i - 1][j]:
-                        f[i][j] = True
-                    # p[j-2]可匹配任意
-                    elif p[j - 2] == '.' and f[i - 1][j]:
-                        f[i][j] = True
-                else:
-                    # p[j-1]匹配掉s[i-1]
-                    if s[i - 1] == p[j - 1] and f[i - 1][j - 1]:
-                        f[i][j] = True
-                    # p[j-1]可匹配任意，匹配掉s[i-1]
-                    if p[j - 1] == '.' and f[i - 1][j - 1]:
-                        f[i][j] = True
-        return f[n][m]
-
-    # def isMatch(self, s: str, p: str) -> bool:
-    #     n, m = len(s), len(p)
-    #     f = [[False] * (m + 1) for _ in range(n + 1)]
-    #     f[0][0] = True  # 空匹配空
-    #     for i in range(n + 1):
-    #         # 正则至少要有一个
-    #         for j in range(1, m + 1):
-    #             if p[j - 1] == '*':
-    #                 # 'p[j-2]*'匹配零次
-    #                 if f[i][j - 2]:
-    #                     f[i][j] = True
-    #                 # 下标检查
-    #                 # p[j-2]再匹配一次s[i-1]
-    #                 elif i > 0 and s[i - 1] == p[j - 2] and f[i - 1][j]:
-    #                     f[i][j] = True
-    #                 # p[j-2]可匹配任意
-    #                 elif p[j - 2] == '.' and f[i - 1][j]:
-    #                     f[i][j] = True
-    #             else:
-    #                 # 下标检查
-    #                 # p[j-1]匹配掉s[i-1]
-    #                 if i > 0 and s[i - 1] == p[j - 1] and f[i - 1][j - 1]:
-    #                     f[i][j] = True
-    #                 # 下标检查
-    #                 # p[j-1]可匹配任意，匹配掉s[i-1]
-    #                 if i > 0 and p[j - 1] == '.' and f[i - 1][j - 1]:
-    #                     f[i][j] = True
-    #     return f[n][m]
+    # def maxTurbulenceSize(self, A: List[int]) -> int:
+    #     n = len(A)
+    #     if n < 2:
+    #         return n
+    #     dp = [1] * n
+    #     dp[1] = 1 if A[0] == A[1] else 2
+    #     res = dp[1]  # 结果至少为dp[1]
+    #     for i in range(2, n):
+    #         if A[i] != A[i - 1]:
+    #             dp[i] = 2  # 至少[A[i-1], A[i]]是湍流子数组
+    #             if A[i - 2] > A[i - 1] < A[i] or A[i - 2] < A[i - 1] > A[i]:
+    #                 dp[i] = dp[i - 1] + 1
+    #                 res = max(res, dp[i])
+    #         # dp[i]初始值就是1, 下面不需要了
+    #         # else:
+    #         #     dp[i] = 1
+    #     return res
 
 
-assert not Solution().isMatch('', '.b*')
-assert not Solution().isMatch('', '.')
-assert Solution().isMatch('', '.*')
-assert Solution().isMatch('ab', '.*')
-assert Solution().isMatch('aa', 'a*')
-assert not Solution().isMatch('aa', 'a')
+assert Solution().maxTurbulenceSize([9, 4, 2, 10, 7, 8, 8, 1, 9]) == 5
+assert Solution().maxTurbulenceSize([9, 9]) == 1
