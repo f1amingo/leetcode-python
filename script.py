@@ -1,32 +1,33 @@
-from typing import List
-
-
+# 1. 非负整数 n
 class Solution:
-    def maximalRectangle(self, matrix: List[List[str]]) -> int:
-        if not matrix or not matrix[0]:
-            return 0
-        m, n = len(matrix), len(matrix[0])
-        ans = 0
-        dp = [[0] * n for _ in range(m)]
-        for i in range(m):
-            for j in range(n):
-                if matrix[i][j] == '1':
-                    dp[i][j] = dp[max(i - 1, 0)][j] + 1
-                    ans = max(ans, dp[i][j])
-                    x, y = i, j
-                    width = dp[i][j]
-                    while y >= 0 and matrix[x][y] == '1':
-                        width = min(width, dp[x][y])
-                        ans = max(ans, (j - y + 1) * width)
-                        y -= 1
+
+    def countNumbersWithUniqueDigits(self, n: int) -> int:
+        if n == 0:
+            return 1
+        if n == 1:
+            return 10
+        dp = [0] * (n + 1)
+        dp[0], dp[1] = 1, 9
+        ans = dp[0] + dp[1]
+        for i in range(2, n + 1):
+            dp[i] = dp[i - 1] * (10 - i + 1)
+            ans += dp[i]
         return ans
 
+    # def countNumbersWithUniqueDigits(self, n: int) -> int:
+    #     if n == 0:
+    #         return 1
+    #     if n == 1:
+    #         return 10
+    #     ans = 10
+    #     cur_sum = 9
+    #     remain_digit = 9
+    #     for i in range(1, n):
+    #         cur_sum *= remain_digit
+    #         ans += cur_sum
+    #         remain_digit -= 1
+    #     return ans
 
-assert Solution().maximalRectangle(
-    [
-        ["1", "0", "1", "0", "0"],
-        ["1", "0", "1", "1", "1"],
-        ["1", "1", "1", "1", "1"],
-        ["1", "0", "0", "1", "0"]
-    ]
-) == 6
+
+assert Solution().countNumbersWithUniqueDigits(1) == 10
+assert Solution().countNumbersWithUniqueDigits(2) == 91
