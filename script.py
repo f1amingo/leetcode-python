@@ -1,33 +1,21 @@
-# 1. 非负整数 n
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from util.ZTree import TreeNode
+
+
 class Solution:
-
-    def countNumbersWithUniqueDigits(self, n: int) -> int:
-        if n == 0:
-            return 1
-        if n == 1:
-            return 10
-        dp = [0] * (n + 1)
-        dp[0], dp[1] = 1, 9
-        ans = dp[0] + dp[1]
-        for i in range(2, n + 1):
-            dp[i] = dp[i - 1] * (10 - i + 1)
-            ans += dp[i]
-        return ans
-
-    # def countNumbersWithUniqueDigits(self, n: int) -> int:
-    #     if n == 0:
-    #         return 1
-    #     if n == 1:
-    #         return 10
-    #     ans = 10
-    #     cur_sum = 9
-    #     remain_digit = 9
-    #     for i in range(1, n):
-    #         cur_sum *= remain_digit
-    #         ans += cur_sum
-    #         remain_digit -= 1
-    #     return ans
-
-
-assert Solution().countNumbersWithUniqueDigits(1) == 10
-assert Solution().countNumbersWithUniqueDigits(2) == 91
+    def mergeTrees(self, root1: TreeNode, root2: TreeNode) -> TreeNode:
+        if root1 is None and root2 is None:
+            return None
+        if root1 is None:
+            return root2
+        if root2 is None:
+            return root1
+        node = TreeNode(root1.val + root2.val)
+        node.left = self.mergeTrees(root1.left, root2.left)
+        node.right = self.mergeTrees(root1.right, root2.right)
+        return node
