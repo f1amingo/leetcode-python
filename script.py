@@ -1,17 +1,13 @@
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-from util.ZList import ListNode
+from typing import List
 
 
 class Solution:
-    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
-        if not headA or not headB:
-            return None
-        ptr1, ptr2 = headA, headB
-        while ptr1 != ptr2:
-            ptr1 = headB if ptr1 is None else ptr1.next
-            ptr2 = headA if ptr2 is None else ptr2.next
-        return ptr1
+    def search(self, nums: List[int], target: int) -> int:
+        lo, hi = 0, len(nums) - 1
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if nums[mid] < target:
+                lo = mid + 1
+            else:
+                hi = mid
+        return lo if nums[lo] == target else -1
