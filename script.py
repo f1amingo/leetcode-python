@@ -1,21 +1,17 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-from util.ZTree import TreeNode
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+from util.ZList import ListNode
 
 
 class Solution:
-    def mergeTrees(self, root1: TreeNode, root2: TreeNode) -> TreeNode:
-        if root1 is None and root2 is None:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        if not headA or not headB:
             return None
-        if root1 is None:
-            return root2
-        if root2 is None:
-            return root1
-        node = TreeNode(root1.val + root2.val)
-        node.left = self.mergeTrees(root1.left, root2.left)
-        node.right = self.mergeTrees(root1.right, root2.right)
-        return node
+        ptr1, ptr2 = headA, headB
+        while ptr1 != ptr2:
+            ptr1 = headB if ptr1 is None else ptr1.next
+            ptr2 = headA if ptr2 is None else ptr2.next
+        return ptr1
