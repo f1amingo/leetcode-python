@@ -1,13 +1,51 @@
-from typing import List
+class MyQueue:
 
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.inStk = []
+        self.outStk = []
 
-class Solution:
-    def search(self, nums: List[int], target: int) -> int:
-        lo, hi = 0, len(nums) - 1
-        while lo < hi:
-            mid = (lo + hi) // 2
-            if nums[mid] < target:
-                lo = mid + 1
-            else:
-                hi = mid
-        return lo if nums[lo] == target else -1
+    def push(self, x: int) -> None:
+        """
+        Push element x to the back of queue.
+        """
+        self.inStk.append(x)
+
+    def pop(self) -> int:
+        """
+        Removes the element from in front of queue and returns that element.
+        """
+        if not self.inStk and not self.outStk:
+            return None
+        if self.outStk:
+            return self.outStk.pop(0)
+        while self.inStk:
+            self.outStk.append(self.inStk.pop(0))
+        return self.outStk.pop(0)
+
+    def peek(self) -> int:
+        """
+        Get the front element.
+        """
+        if not self.inStk and not self.outStk:
+            return None
+        if self.outStk:
+            return self.outStk[0]
+        while self.inStk:
+            self.outStk.append(self.inStk.pop(0))
+        return self.outStk[0]
+
+    def empty(self) -> bool:
+        """
+        Returns whether the queue is empty.
+        """
+        return not self.inStk and not self.outStk
+
+# Your MyQueue object will be instantiated and called as such:
+# obj = MyQueue()
+# obj.push(x)
+# param_2 = obj.pop()
+# param_3 = obj.peek()
+# param_4 = obj.empty()
