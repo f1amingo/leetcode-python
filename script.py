@@ -2,17 +2,23 @@ from typing import List
 
 
 class Solution:
-    def distanceBetweenBusStops(self, distance: List[int], start: int, destination: int) -> int:
-        total = sum(distance)
-        n = len(distance)
-        cur = 0
-        i = start
-        while i != destination:
-            cur += distance[i]
-            i += 1
-            i %= n
-        return min(cur, total - cur)
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        # 确定start位置的元素
+        def dfs(start: int):
+            if start == n:
+                ans.append(nums.copy())
+                return
+            for i in range(start, n):
+                nums[i], nums[start] = nums[start], nums[i]
+                # dfs(i + 1)
+                # 下一轮应该确定start + 1而不是i
+                dfs(start + 1)
+                nums[i], nums[start] = nums[start], nums[i]
+
+        ans = []
+        n = len(nums)
+        dfs(0)
+        return ans
 
 
-assert Solution().distanceBetweenBusStops([1, 2, 3, 4], 0, 1) == 1
-assert Solution().distanceBetweenBusStops([1, 2, 3, 4], 1, 0) == 1
+print(Solution().permute([1, 2, 3]))
