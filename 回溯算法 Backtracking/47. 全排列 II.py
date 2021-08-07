@@ -9,8 +9,7 @@ class Solution:
                 res.append(cur_list.copy())
                 return
             for j in range(n):
-                # not visited[j-1])
-                # 对于重复元素，如果j-1没有被使用说明，是在上一步中被撤销的
+                # 对于重复元素，如果j-1没有被使用说明，当前位置在上一步已经选择过这个值了
                 # j-1如果还在使用，说明进入了下一层递归
                 if visited[j] or (j > 0 and nums[j] == nums[j - 1] and not visited[j - 1]):
                     continue
