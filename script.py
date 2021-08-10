@@ -1,34 +1,31 @@
 from typing import List
 
 
-# 1. 与46相比含有重复元素
-# 2. 无序！
-# 但结果不能有重复排列
-# 几个问题：
-# 1. 为什么不能交换了。交换打乱了顺序，而顺序是去重的保证
-# 2. 什么时候发生重复
+# 最大的数，整个数组降序排列
+# 降序大，升序小
 class Solution:
-    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
-        def dfs(i: int, visit: List):
-            if i == n:
-                ans.append(cur_list.copy())
-                return
-            for j in range(n):
-                if visit[j] or (j > 0 and nums[j - 1] == nums[j] and not visit[j - 1]):
-                    continue
-                visit[j] = True
-                cur_list[i] = nums[j]
-                dfs(i + 1, visit)
-                visit[j] = False
-
+    def nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
         n = len(nums)
-        cur_list = [0] * n
-        ans = []
-        nums.sort()
-        dfs(0, [False] * n)
-        return ans
+        # 倒序第一段升序左端点
+        m = n - 2
+        while m >= 0 and nums[m] >= nums[m + 1]:
+            m -= 1
+        if m != -1:
+            # 交换，倒序第一个大于A[m]的值
+            k = n - 1
+            while k > m and nums[k] <= nums[m]:
+                k -= 1
+            nums[k], nums[m] = nums[m], nums[k]
+        lt, rt = m + 1, n - 1
+        while lt < rt:
+            nums[lt], nums[rt] = nums[rt], nums[lt]
+            lt += 1
+            rt -= 1
+        print(nums)
 
 
-print(Solution().permuteUnique([1, 1, 2]))
-print(Solution().permuteUnique([1, 2, 2]))
-print(Solution().permuteUnique([0, 0, 2, 2, 1, 1, 1]))
+Solution().nextPermutation([5, 1, 1])
+Solution().nextPermutation([1, 5, 1])
