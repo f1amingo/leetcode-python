@@ -12,4 +12,5 @@ class Solution:
                     dp[i][j] = max(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1])
         return ans
 
+
 print(Solution().longestCommonSubsequence("abcde", "ace"))
