@@ -1,16 +1,18 @@
+from typing import List
+
+
 class Solution:
-    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        m, n = len(text1), len(text2)
+    def subarraysDivByK(self, nums: List[int], k: int) -> int:
+        pre = {0: 1}
+        cur = 0
         ans = 0
-        dp = [[0] * (m + 1) for _ in range(n + 1)]
-        for i in range(1, n + 1):
-            for j in range(1, m + 1):
-                if text1[j - 1] == text2[i - 1]:
-                    dp[i][j] = dp[i - 1][j - 1] + 1
-                    ans = max(ans, dp[i][j])
-                else:
-                    dp[i][j] = max(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1])
+        for num in nums:
+            cur += num
+            mod = cur % k
+            freq = pre.get(mod, 0)
+            ans += freq
+            pre[mod] = freq + 1
         return ans
 
 
-print(Solution().longestCommonSubsequence("abcde", "ace"))
+print(Solution().subarraysDivByK([4, 5, 0, -2, -3, 1], 5))
