@@ -1,18 +1,19 @@
-from typing import List
+def solute(graph):
+    def dfs()
+    n = len(graph)
+    vis = [False] * n
+    for i in range(n):
+        for j in range(n):
+            if graph[i][j] == 1:
 
 
-class Solution:
-    def subarraysDivByK(self, nums: List[int], k: int) -> int:
-        pre = {0: 1}
-        cur = 0
-        ans = 0
-        for num in nums:
-            cur += num
-            mod = cur % k
-            freq = pre.get(mod, 0)
-            ans += freq
-            pre[mod] = freq + 1
-        return ans
 
 
-print(Solution().subarraysDivByK([4, 5, 0, -2, -3, 1], 5))
+c = int(input())
+for _ in range(c):
+    n, m = map(int, input().split())
+    graph = [[0] * n for _ in range(n)]
+    for _ in range(m):
+        u, v = map(int, input().split())
+        graph[u][v] = graph[v][u] = 1
+    print(solute(graph))
